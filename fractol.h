@@ -15,6 +15,8 @@
 
 # include <stdlib.h>
 # include <mlx.h>
+# include <math.h>
+// #include pthread.h
 # include <stdio.h> //
 
 # define MANDEL ("mandelbrot")
@@ -93,5 +95,7 @@ struct					s_img
 };
 
 int						draw(t_env *env);
+int						color_get(double val);
+int						color_smoothen(t_cmp *c, long index);
 
 #endif

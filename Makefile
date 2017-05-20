@@ -17,6 +17,7 @@ endif
 CLIBS+=-lmlx
 
 OBJ:=\
+	color.o\
 	draw.o\
 	main.o
 

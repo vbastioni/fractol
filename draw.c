@@ -12,56 +12,56 @@
 
 #include "fractol.h"
 
-static inline void	map(t_cmp *cmp, t_int2 *dims, t_env *env)
+static inline t_cmp	map(t_cmp *cmp, t_int2 *dims, t_env *env)
 {
 	cmp->re = (env->dimx.a + (env->dimx.b - env->dimx.a)
 				* (double)(dims->a) / WIN_X);
 	cmp->im = (env->dimy.a + (env->dimy.b - env->dimy.a)
 				* (double)(dims->b) / WIN_Y);
+	return (*cmp);
 }
 
-int					color_get(int val)
+static void			do_iter(t_uchar flags, t_doub2 *tmp, t_cmp *curr, t_cmp *c, int *iter)
 {
-	const double	*scales[3] = (const double *[3]) {
-		(const double[2]){0., 1.},
-		(const double[2]){0.33, 1.},
-		(const double[2]){1., 1.}
-	};
-	t_color			c;
-	double			de;
+	double			twoab;
 
-	de = (double)val / MAX_ITER;
-	c.co = 0;
-	c.c[2] = (scales[0][0] + (scales[0][1] - scales[0][0]) * de) * 0xFF * 100;
-	c.c[1] = (scales[1][0] + (scales[1][1] - scales[1][0]) * de) * 0xFF * 100;
-	c.c[0] = (scales[2][0] + (scales[2][1] - scales[2][0]) * de) * 0xFF * 100;
-	return (c.co);
+	tmp->a = curr->re * curr->re;
+	tmp->b = curr->im * curr->im;
+	if ((flags & 1) && curr->re == (tmp->a - tmp->b + c->re)
+		&& curr->im == (2 * tmp->a * tmp->b + c->im))
+		*iter = MAX_ITER - 1;
+	else
+	{
+		twoab = 2 * ((flags & 2) ? fabs(curr->re) * fabs(curr->im) :
+						curr->re * curr->im);
+		curr->re = tmp->a - tmp->b + c->re;
+		curr->im = twoab + c->im;
+	}
+	(*iter)++;
 }
 
-static int			draw_pixel(t_env *env, t_int2 *dims, t_img *img)
+static int			draw_pixel(t_env *env, t_int2 *dims, t_img *img, int abs)
 {
 	t_cmp			curr;
 	t_cmp			c;
 	t_doub2			tmp;
 	int				*addr;
-	double			twoab;
 	int				iter;
 
 	iter = 0;
-	map(&c, dims, env);
-	curr = c;
-	while (iter < MAX_ITER && (((tmp.a = curr.re * curr.re)
-								+ (tmp.b = curr.im * curr.im)) < MAX_MOD))
-	{
-		if (curr.re == (tmp.a - tmp.b + c.re) && twoab == (2 * tmp.a * tmp.b))
-			iter = MAX_ITER - 1;
-		twoab = 2 * curr.re * curr.im;
-		curr.re = tmp.a - tmp.b + c.re;
-		curr.im = twoab + c.im;
-		iter++;
-	}
+	curr = map(&c, dims, env);
+	while (iter < MAX_ITER && (curr.re * curr.re + curr.im * curr.im) < MAX_MOD)
+		do_iter(3, &tmp, &curr, &c, &iter);
 	addr = (int *)(img->addr + img->bpx * dims->a + img->sl * dims->b);
-	*addr = iter == MAX_ITER ? 0x0 : color_get(iter);
+	if (iter == MAX_ITER)
+		*addr = 0x0;
+	else
+	{
+		do_iter(2, &tmp, &curr, &c, &iter);
+		if (abs)
+			do_iter(2, &tmp, &curr, &c, &iter);
+		*addr = color_smoothen(&curr, iter);
+	}
 	return (0);
 }
 
@@ -79,7 +79,7 @@ int					draw(t_env *env)
 		dims.a = 0;
 		while (dims.a < WIN_X)
 		{
-			draw_pixel(env, &dims, &img);
+			draw_pixel(env, &dims, &img, 1);
 			dims.a++;
 		}
 		dims.b++;
