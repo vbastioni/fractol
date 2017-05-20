@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 12:02:35 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/20 13:59:16 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/20 10:44:29 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,48 +47,53 @@ static void			do_iter(t_uchar flags, t_doub2 *tmp, t_cmp *curr, t_cmp *c, int *i
 	(*iter)++;
 }
 
-static int			draw_pixel(t_env *env, t_int2 *dims)
+static int			draw_pixel(t_env *env, t_int2 *dims, t_img *img,
+								t_uchar flags)
 {
 	t_cmp			curr;
 	t_cmp			c;
 	t_doub2			tmp;
+	int				*addr;
 	int				iter;
 
 	iter = 0;
-	map(&curr, dims, env);
-	c = (env->params & 8) ? env->mapped_mouse : curr;
-	while (iter < ((env->params & 1) ? LOW_ITER : MAX_ITER)
+	curr = map(&c, dims, env);
+	while (iter < ((flags & 1) ? LOW_ITER : MAX_ITER)
 			&& (curr.re * curr.re + curr.im * curr.im) < MAX_MOD)
-		do_iter(env->params, &tmp, &curr, &c, &iter);
-	if (iter == ((env->params & 1) ? LOW_ITER : MAX_ITER))
-		*(img_get_addr(env, dims)) = 0x0;
+		do_iter(flags, &tmp, &curr, &c, &iter);
+	addr = (int *)(img->addr + img->bpx * dims->a + img->sl * dims->b);
+	if (iter == (flags & 1) ? LOW_ITER : MAX_ITER)
+		*addr = 0x0;
 	else
 	{
-		do_iter((env->params & 0xB), &tmp, &curr, &c, &iter);
-		if ((env->params & 2))
-			do_iter((env->params & 0xB), &tmp, &curr, &c, &iter);
-		*(img_get_addr(env, dims)) = color_smoothen(&curr, iter);
+		do_iter((flags & 0xB), &tmp, &curr, &c, &iter);
+		if ((flags & 2))
+			do_iter((flags & 0xB), &tmp, &curr, &c, &iter);
+		*addr = color_smoothen(&curr, iter);
 	}
 	return (0);
 }
 
 int					draw(t_env *env)
 {
+	t_img			img;
 	t_int2			dims;
 
-	img_clear(env);
+	img.img = mlx_new_image(env->mlx, WIN_X, WIN_Y);
+	img.addr = mlx_get_data_addr(img.img, &img.bpx, &img.sl, &img.endian);
+	img.bpx /= 8;
 	dims = (t_int2){0, 0};
-	map(&env->mapped_mouse, &env->mouse, env);
 	while (dims.b < WIN_Y)
 	{
 		dims.a = 0;
 		while (dims.a < WIN_X)
 		{
-			draw_pixel(env, &dims);
+			draw_pixel(env, &dims, &img, 0);
 			dims.a++;
 		}
 		dims.b++;
 	}
-	mlx_put_image_to_window(env->mlx, env->win, env->img.img, 0, 0);
+	mlx_put_image_to_window(env->mlx, env->win, img.img, 0, 0);
+	mlx_destroy_image(env->mlx, img.img);
 	return (0);
 }
