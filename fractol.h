@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/20 14:15:14 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/20 17:36:59 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 # define KC_S 1
 # define KC_A 0
 # define KC_D 2
+
+# define KC_R 15
 
 # define KC_LEFT 123
 # define KC_RIGHT 124
@@ -95,6 +97,8 @@ struct					s_env
 	char				**fnames;
 	t_int2				mouse;
 	t_cmp				mapped_mouse;
+	t_doub2				def_dimx;
+	t_doub2				def_dimy;
 	t_doub2				dimx;
 	t_doub2				dimy;
 	void				*mlx;
@@ -120,5 +124,6 @@ int						*img_get_addr(t_env *env, t_int2 *pos);
 int						expose(void *param);
 int						handle_key(int kc, void *param);
 int						handle_mouse(int x, int y, void *param);
+int						handle_mouse_btn(int btn, int x, int y, void *param);
 
 #endif

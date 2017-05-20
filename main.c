@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 10:44:08 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/20 14:15:01 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/20 17:34:39 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void				env_set_julia(t_env *env)
 {
 	env->dimx = (t_doub2){-2., 2.};
 	env->dimy = (t_doub2){-2., 2.};
+	env->def_dimx = env->dimx;
+	env->def_dimy = env->dimy;
 	env->params = to_param(1, 0, 1, 1);
 }
 
@@ -29,6 +31,8 @@ void				env_set_mandel(t_env *env)
 {
 	env->dimx = (t_doub2){-2., 1.};
 	env->dimy = (t_doub2){-1.5, 1.5};
+	env->def_dimx = env->dimx;
+	env->def_dimy = env->dimy;
 	env->params = to_param(0, 0, 1, 0);
 }
 
@@ -36,6 +40,8 @@ void				env_set_ship(t_env *env)
 {
 	env->dimx = (t_doub2){-2., 1.5};
 	env->dimy = (t_doub2){-2., 1.5};
+	env->def_dimx = env->dimx;
+	env->def_dimy = env->dimy;
 	env->params = to_param(0, 1, 1, 0);
 }
 
@@ -70,6 +76,7 @@ int					main(int ac, char **av)
 	mlx_key_hook(env.win, &handle_key, &env);
 	mlx_hook(env.win, EVT_MOTION, EVT_MOTION_MASK, handle_mouse, &env);
 	mlx_expose_hook(env.win, &expose, &env);
+	mlx_mouse_hook(env.win, &handle_mouse_btn, &env);
 	mlx_loop(env.mlx);
 	return (0);
 }
