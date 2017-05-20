@@ -17,17 +17,21 @@ endif
 CLIBS+=-lmlx
 
 OBJ:=\
+	callback.o\
 	color.o\
 	draw.o\
-	main.o
+	img.o\
+	main.o\
+	utils.o
 
 $(NAME): $(OBJ)
-	make -C $(MLX)
-	make -C $(FT)
-	$(CC) $? $(CFLAGS) -o $@ ${CLIBS}
+	@make -C $(MLX)
+	@make -C $(FT)
+	@$(CC) $? $(CFLAGS) -o $@ ${CLIBS}
+	@echo "Compiled fractol."
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $? ${LIBS}
+	@$(CC) $(CFLAGS) -c $? ${LIBS}
 
 ${MLX}:
 	make -C ${MLX}
@@ -38,9 +42,13 @@ ${FT}:
 all: ${NAME}
 
 clean:
-	rm -rf ${OBJ}
+	@rm -rf ${OBJ}
+	@make -C ${FT} clean
+	@echo "Cleaned Fractol"
 
 fclean: clean
-	rm -f ${NAME}
+	@rm -f ${NAME}
+	@make -C ${FT} fclean
+	@echo "FCleaned Fractol"
 
 re: fclean all
