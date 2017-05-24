@@ -89,6 +89,6 @@ int					draw_mandel(t_env *env)
 		}
 		dims.b++;
 	}
-	mlx_put_image_to_window(env->mlx, env->win, env->img.img, 0, 0);
+	img_to_win(env);
 	return (0);
 }

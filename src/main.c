@@ -68,6 +68,11 @@ void				env_set_sponge(t_env *env)
 	env->renderer = &draw_sponge;
 }
 
+void				env_set_triangle(t_env *env)
+{
+	env->renderer = &draw_triangle;
+}
+
 int					env_setup(t_env *env, const char *name)
 {
 	if (ft_strcmp(name, JULIA) == 0)
@@ -80,8 +85,8 @@ int					env_setup(t_env *env, const char *name)
 		env_set_tree(env);
 	else if (ft_strcmp(name, NEWTON) == 0)
 		env_set_newton(env);
-/*	else if (ft_strcmp(name, TRIANGLE) == 0)
-		env_set_triangle(env);*/
+	else if (ft_strcmp(name, TRIANGLE) == 0)
+		env_set_triangle(env);
 	else if (ft_strcmp(name, SPONGE) == 0)
 		env_set_sponge(env);
 	if (!(img_create(env)))

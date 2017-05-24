@@ -44,3 +44,10 @@ int			*img_get_addr(t_env *env, t_int2 *pos)
 	return ((int *)(env->img.addr + env->img.bpx * pos->a
 					+ env->img.sl * pos->b));
 }
+
+int			img_to_win(t_env *env)
+{
+	mlx_put_image_to_window(env->mlx, env->win, env->img.img, 0, 0);
+	return (0);
+}
+

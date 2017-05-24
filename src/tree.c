@@ -48,6 +48,6 @@ int			draw_tree(t_env *env)
 	img_clear(env);
 	init = (t_int2){WIN_X / 2, WIN_Y - 1};
 	get_points(env, &init, 90, DEF_TREE_LEN);
-	mlx_put_image_to_window(env->mlx, env->win, env->img.img, 0, 0);
+	img_to_win(env);
 	return (1);
 }

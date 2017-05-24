@@ -30,10 +30,10 @@ static void	draw_cube(t_env *env, int level, int x, int y, double r)
 	if (level >= env->sponge_depth)
 		return ;
 	delta = r / 3;
-	pos[0] = (t_int2){ x - delta, y - delta };
-	pos[1] = (t_int2){ x + delta, y - delta };
-	pos[2] = (t_int2){ x + delta, y + delta };
-	pos[3] = (t_int2){ x - delta, y + delta };
+	pos[0] = (t_int2){ x - delta - 1, y - delta - 1 };
+	pos[1] = (t_int2){ x + delta - 1, y - delta - 1 };
+	pos[2] = (t_int2){ x + delta - 1, y + delta - 1 };
+	pos[3] = (t_int2){ x - delta - 1, y + delta - 1 };
 	draw_line(env, pos, pos + 1);
 	draw_line(env, pos + 1, pos + 2);
 	draw_line(env, pos + 2, pos + 3);
@@ -53,6 +53,6 @@ int			draw_sponge(t_env *env)
 	img_clear(env);
 	env->sponge_depth = 6;
 	draw_cube(env, 0, WIN_X / 2, WIN_Y / 2, 600.);
-	mlx_put_image_to_window(env->mlx, env->win, env->img.img, 0, 0);
+	img_to_win(env);
 	return (0);
 }

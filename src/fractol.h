@@ -29,11 +29,19 @@
 # define TRIANGLE ("triangle")
 # define SPONGE ("sponge")
 
-# define WIN_X (999)
-# define WIN_Y (999)
+# define WIN_X (800)
+# define WIN_Y (800)
 # define WIN_NAME ("Fractol")
 
 # define DEF_TREE_LEN (200)
+
+/*
+**	NEWTON's variables
+*/
+
+# define N_MAX_CNT (255)
+# define N_MULT_COL (15)
+# define N_TOL (.0001)
 
 # ifdef PI
 #  undef PI
@@ -128,6 +136,7 @@ int						draw_mandel(t_env *env);
 int						draw_tree(t_env *env);
 int						draw_newton(t_env *env);
 int						draw_sponge(t_env *env);
+int						draw_triangle(t_env *env);
 
 int						usage(const char *name, const t_env *env);
 int						valid_args(const int ac, char **av, const t_env *env);
@@ -139,6 +148,7 @@ int						color_smoothen(t_cmp *c, long index);
 int						img_create(t_env *env);
 int						img_clear(t_env *env);
 int						*img_get_addr(t_env *env, t_int2 *pos);
+int						img_to_win(t_env *env);
 
 int						expose(void *param);
 int						handle_key(int kc, void *param);
