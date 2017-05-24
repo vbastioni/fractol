@@ -16,6 +16,7 @@ ITEM:=\
 	tree.o\
 	img.o\
 	main.o\
+	newton.o\
 	utils.o
 OBJ:=$(addprefix ./src/, $(ITEM))
 

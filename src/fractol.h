@@ -25,14 +25,19 @@
 # define JULIA ("julia")
 # define SHIP ("ship")
 # define TREE ("tree")
+# define NEWTON ("newton")
 
-# define WIN_X (700)
-# define WIN_Y (700)
+# define WIN_X (999)
+# define WIN_Y (999)
 # define WIN_NAME ("Fractol")
 
 # define DEF_TREE_LEN (200)
 
-# define TO_RAD (.01745329251)
+# ifdef PI
+#  undef PI
+# endif
+# define PI (3.14159265358979323846)
+# define TO_RAD (0.01745329251994329577)
 
 # define MAX_MOD (4.)
 # define MAX_ITER (2048)
@@ -111,12 +116,14 @@ struct					s_env
 	t_img				img;
 	int					(*renderer)();
 	t_uchar				params;
+	int					newton_mode;
 	float				tree_step;
 	float				tree_min_len;
 };
 
 int						draw_mandel(t_env *env);
 int						draw_tree(t_env *env);
+int						draw_newton(t_env *env);
 
 int						usage(const char *name, const t_env *env);
 int						valid_args(const int ac, char **av, const t_env *env);

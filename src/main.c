@@ -55,6 +55,14 @@ void				env_set_tree(t_env *env)
 	env->tree_step = .67;
 }
 
+void				env_set_newton(t_env *env)
+{
+	env->dimx = (t_doub2){-2., 2.};
+	env->dimy = (t_doub2){-2., 2.};
+	env->renderer = &draw_newton;
+	env->newton_mode = 1;
+}
+
 int					env_setup(t_env *env, const char *name)
 {
 	if (ft_strcmp(name, JULIA) == 0)
@@ -65,6 +73,8 @@ int					env_setup(t_env *env, const char *name)
 		env_set_ship(env);
 	else if (ft_strcmp(name, TREE) == 0)
 		env_set_tree(env);
+	else if (ft_strcmp(name, NEWTON) == 0)
+		env_set_newton(env);
 	if (!(img_create(env)))
 		return (0 * err("Error with mlx image.\n"));
 	env->mouse = (t_int2){0, 0};
@@ -75,7 +85,7 @@ int					main(int ac, char **av)
 {
 	t_env			env;
 
-	env.fnames = (char *[5]){MANDEL, JULIA, SHIP, TREE, 0};
+	env.fnames = (char *[6]){MANDEL, JULIA, SHIP, TREE, NEWTON, 0};
 	if (ac == 1 || (!valid_args(ac, av, &env))) 
 		return (usage(av[0], &env));
 	if (!(env.mlx = mlx_init()))
@@ -83,7 +93,7 @@ int					main(int ac, char **av)
 	if (!(env.win = mlx_new_window(env.mlx, WIN_X, WIN_Y, WIN_NAME)))
 		return (err("Could not create mlx window.\n"));
 	env_setup(&env, av[1]);
-	env.renderer(&env);
+//	env.renderer(&env);
 	mlx_key_hook(env.win, &handle_key, &env);
 	mlx_hook(env.win, EVT_MOTION, EVT_MOTION_MASK, handle_mouse, &env);
 	mlx_expose_hook(env.win, &expose, &env);
