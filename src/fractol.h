@@ -145,4 +145,15 @@ int						handle_key(int kc, void *param);
 int						handle_mouse(int x, int y, void *param);
 int						handle_mouse_btn(int btn, int x, int y, void *param);
 
+/*
+**	Complex numbers functions
+**	Somewhat of an operator overload for C
+*/
+
+double					cmp_abs(const t_cmp *cmp);
+t_cmp					cmp_mult(const t_cmp *lhs, const t_cmp *rhs);
+t_cmp					cmp_sub(const t_cmp *lhs, const t_cmp *rhs);
+t_cmp					cmp_div(const t_cmp *lhs, const t_cmp *rhs);
+t_cmp					cmp_multr(const t_cmp *lhs, double r);
+
 #endif

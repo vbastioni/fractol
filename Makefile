@@ -12,6 +12,7 @@ CLIBS+=-lmlx
 ITEM:=\
 	callback.o\
 	color.o\
+	complex.o\
 	draw.o\
 	tree.o\
 	img.o\

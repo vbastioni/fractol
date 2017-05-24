@@ -9,11 +9,6 @@ static inline t_cmp	map(t_cmp *cmp, t_int2 *dims, t_env *env)
 	return (*cmp);
 }
 
-static inline float cmp_abs(const t_cmp *cmp)
-{
-	return (sqrt(cmp->re * cmp->re + cmp->im * cmp->im));
-}
-
 static float	cmp_abs2(const t_cmp *lhs, const t_cmp *rhs)
 {
 	t_cmp	tmp;
@@ -21,44 +16,6 @@ static float	cmp_abs2(const t_cmp *lhs, const t_cmp *rhs)
 	tmp.re = lhs->re - rhs->re;
 	tmp.im = lhs->im - rhs->im;
 	return (cmp_abs(&tmp));
-}
-
-static t_cmp	cmp_mult(const t_cmp *lhs, const t_cmp *rhs)
-{
-	t_cmp		tmp;
-
-	tmp.re = lhs->re * rhs->re - lhs->im * rhs->im;
-	tmp.im = lhs->re * rhs->im + lhs->im * rhs->re;
-	return (tmp);
-}
-
-static t_cmp	cmp_sub(const t_cmp *lhs, const t_cmp *rhs)
-{
-	t_cmp		tmp;
-	
-	tmp.re = lhs->re - rhs->re;
-	tmp.im = lhs->im - rhs->im;	
-	return (tmp);
-}
-
-static t_cmp	cmp_div(const t_cmp *lhs, const t_cmp *rhs)
-{
-	t_cmp		tmp;
-
-	tmp.re = ((lhs->re * rhs->re + lhs->im * rhs->im)
-				/ (rhs->re * rhs->re + rhs->im * rhs->im));
-	tmp.im = ((lhs->im * rhs->re - lhs->re * rhs->im)
-				/ (rhs->re * rhs->re + rhs->im * rhs->im));
-	return (tmp);
-}
-
-static t_cmp	cmp_multr(const t_cmp *lhs, double r)
-{
-	t_cmp		tmp;
-
-	tmp.re = lhs->re * r;
-	tmp.im = lhs->im * r;
-	return (tmp);
 }
 
 int			draw_newton(t_env *env)
