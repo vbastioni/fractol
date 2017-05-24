@@ -17,6 +17,7 @@ ITEM:=\
 	img.o\
 	main.o\
 	newton.o\
+	sponge.o\
 	utils.o
 OBJ:=$(addprefix ./src/, $(ITEM))
 

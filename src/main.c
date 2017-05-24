@@ -63,6 +63,11 @@ void				env_set_newton(t_env *env)
 	env->newton_mode = 1;
 }
 
+void				env_set_sponge(t_env *env)
+{
+	env->renderer = &draw_sponge;
+}
+
 int					env_setup(t_env *env, const char *name)
 {
 	if (ft_strcmp(name, JULIA) == 0)
@@ -75,6 +80,10 @@ int					env_setup(t_env *env, const char *name)
 		env_set_tree(env);
 	else if (ft_strcmp(name, NEWTON) == 0)
 		env_set_newton(env);
+/*	else if (ft_strcmp(name, TRIANGLE) == 0)
+		env_set_triangle(env);*/
+	else if (ft_strcmp(name, SPONGE) == 0)
+		env_set_sponge(env);
 	if (!(img_create(env)))
 		return (0 * err("Error with mlx image.\n"));
 	env->mouse = (t_int2){0, 0};
@@ -85,7 +94,8 @@ int					main(int ac, char **av)
 {
 	t_env			env;
 
-	env.fnames = (char *[6]){MANDEL, JULIA, SHIP, TREE, NEWTON, 0};
+	env.fnames = (char *[8]){MANDEL, JULIA, SHIP, TREE, NEWTON, TRIANGLE,
+								SPONGE, 0};
 	if (ac == 1 || (!valid_args(ac, av, &env))) 
 		return (usage(av[0], &env));
 	if (!(env.mlx = mlx_init()))

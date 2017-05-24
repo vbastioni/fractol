@@ -26,6 +26,8 @@
 # define SHIP ("ship")
 # define TREE ("tree")
 # define NEWTON ("newton")
+# define TRIANGLE ("triangle")
+# define SPONGE ("sponge")
 
 # define WIN_X (999)
 # define WIN_Y (999)
@@ -119,11 +121,13 @@ struct					s_env
 	int					newton_mode;
 	float				tree_step;
 	float				tree_min_len;
+	int					sponge_depth;
 };
 
 int						draw_mandel(t_env *env);
 int						draw_tree(t_env *env);
 int						draw_newton(t_env *env);
+int						draw_sponge(t_env *env);
 
 int						usage(const char *name, const t_env *env);
 int						valid_args(const int ac, char **av, const t_env *env);
