@@ -5,45 +5,35 @@ FT=./libft
 MLX=./minilibx_macos
 LIBS=-I ./includes -I ${FT}
 CLIBS=-L${FT} -lft -framework OpenGL -framework AppKit
-ifeq ("${VERSION}", "2015")
 LIBS+=-I ${MLX}
 CLIBS+=-L ${MLX}
-else
-	ifeq ("${VERSION}", "2017")
-		LIBS+=-I ${MLX}
-		CLIBS+=-L ${MLX}
-	endif
-endif
 CLIBS+=-lmlx
 
-OBJ:=\
+ITEM:=\
 	callback.o\
 	color.o\
 	draw.o\
+	tree.o\
 	img.o\
 	main.o\
 	utils.o
+OBJ:=$(addprefix ./src/, $(ITEM))
 
 $(NAME): $(OBJ)
 	@make -C $(MLX)
 	@make -C $(FT)
-	@$(CC) $? $(CFLAGS) -o $@ ${CLIBS}
+	@$(CC) $(OBJ) $(CFLAGS) -o $@ ${CLIBS}
 	@echo "Compiled fractol."
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $? ${LIBS}
-
-${MLX}:
-	make -C ${MLX}
-
-${FT}:
-	make -C ${FT}
+	@$(CC) $(CFLAGS) -c $? ${LIBS} -o $@
 
 all: ${NAME}
 
 clean:
 	@rm -rf ${OBJ}
 	@make -C ${FT} clean
+	@make -C ${MLX} clean
 	@echo "Cleaned Fractol"
 
 fclean: clean

@@ -72,7 +72,7 @@ static int			draw_pixel(t_env *env, t_int2 *dims)
 	return (0);
 }
 
-int					draw(t_env *env)
+int					draw_mandel(t_env *env)
 {
 	t_int2			dims;
 

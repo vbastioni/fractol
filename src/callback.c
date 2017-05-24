@@ -38,7 +38,7 @@ static int		move(int kc, t_env *env)
 		env->dimy.a -= delta.a;
 		env->dimy.b -= delta.a;
 	}
-	draw(env);
+	env->renderer(env);
 	return (1);
 }
 
@@ -73,7 +73,7 @@ int				handle_mouse(int x, int y, void *param)
 	if ((env->params & 8) == 0 || x < 0 || y < 0 || x > WIN_X || y > WIN_Y)
 		return (0);
 	env->mouse = (t_int2){x, y};
-	draw(env);
+	env->renderer(env);
 	return (0);
 }
 

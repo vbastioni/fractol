@@ -24,12 +24,17 @@
 # define MANDEL ("mandelbrot")
 # define JULIA ("julia")
 # define SHIP ("ship")
+# define TREE ("tree")
 
-# define WIN_X (800)
-# define WIN_Y (880)
+# define WIN_X (700)
+# define WIN_Y (700)
 # define WIN_NAME ("Fractol")
 
-# define MAX_MOD (4.0)
+# define DEF_TREE_LEN (200)
+
+# define TO_RAD (.01745329251)
+
+# define MAX_MOD (4.)
 # define MAX_ITER (2048)
 # define LOW_ITER (32)
 
@@ -106,9 +111,12 @@ struct					s_env
 	t_img				img;
 	int					(*renderer)();
 	t_uchar				params;
+	float				tree_step;
+	float				tree_min_len;
 };
 
-int						draw(t_env *env);
+int						draw_mandel(t_env *env);
+int						draw_tree(t_env *env);
 
 int						usage(const char *name, const t_env *env);
 int						valid_args(const int ac, char **av, const t_env *env);

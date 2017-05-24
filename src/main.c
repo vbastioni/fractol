@@ -25,6 +25,7 @@ void				env_set_julia(t_env *env)
 	env->def_dimx = env->dimx;
 	env->def_dimy = env->dimy;
 	env->params = to_param(1, 0, 1, 1);
+	env->renderer = &draw_mandel;
 }
 
 void				env_set_mandel(t_env *env)
@@ -34,6 +35,7 @@ void				env_set_mandel(t_env *env)
 	env->def_dimx = env->dimx;
 	env->def_dimy = env->dimy;
 	env->params = to_param(0, 0, 1, 0);
+	env->renderer = &draw_mandel;
 }
 
 void				env_set_ship(t_env *env)
@@ -43,6 +45,14 @@ void				env_set_ship(t_env *env)
 	env->def_dimx = env->dimx;
 	env->def_dimy = env->dimy;
 	env->params = to_param(0, 1, 1, 0);
+	env->renderer = &draw_mandel;
+}
+
+void				env_set_tree(t_env *env)
+{
+	env->renderer = &draw_tree;
+	env->tree_min_len = 1.;
+	env->tree_step = .67;
 }
 
 int					env_setup(t_env *env, const char *name)
@@ -53,10 +63,11 @@ int					env_setup(t_env *env, const char *name)
 		env_set_mandel(env);
 	else if (ft_strcmp(name, SHIP) == 0)
 		env_set_ship(env);
+	else if (ft_strcmp(name, TREE) == 0)
+		env_set_tree(env);
 	if (!(img_create(env)))
 		return (0 * err("Error with mlx image.\n"));
 	env->mouse = (t_int2){0, 0};
-	env->renderer = &draw;
 	return (0);
 }
 
@@ -64,7 +75,7 @@ int					main(int ac, char **av)
 {
 	t_env			env;
 
-	env.fnames = (char *[4]){MANDEL, JULIA, SHIP, 0};
+	env.fnames = (char *[5]){MANDEL, JULIA, SHIP, TREE, 0};
 	if (ac == 1 || (!valid_args(ac, av, &env))) 
 		return (usage(av[0], &env));
 	if (!(env.mlx = mlx_init()))
