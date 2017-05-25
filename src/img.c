@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 11:40:23 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/20 12:30:05 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 17:30:25 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,3 @@ int			img_to_win(t_env *env)
 	mlx_put_image_to_window(env->mlx, env->win, env->img.img, 0, 0);
 	return (0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 10:12:35 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 10:56:04 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 17:35:44 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void		*rdr_thread(void *pth)
 	{
 		pos.b = -1;
 		while (++pos.b < WIN_X)
-			th->env->pixels[pos.b + pos.a * WIN_X] = th->env->renderer(th->env, 
+			th->env->pixels[pos.b + pos.a * WIN_X] = th->env->renderer(th->env,
 																		&pos);
 	}
 	return (0);
@@ -47,7 +47,7 @@ static void		rdr_loop(t_env *env)
 }
 
 void			rdr_cmd(t_env *env)
-{	
+{
 	int			i;
 
 	i = -1;

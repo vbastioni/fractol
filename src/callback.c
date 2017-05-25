@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 12:31:30 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 17:11:38 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 17:44:54 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,13 @@ static int		move(int kc, t_env *e)
 	delta.a = (e->dimx.b - e->dimx.a) * .1;
 	delta.b = (e->dimy.b - e->dimy.a) * .1;
 	if (kc == KC_D || kc == KC_RIGHT)
-	{
-		e->dimx.a += delta.a;
-		e->dimx.b += delta.a;
-	}
+		e->dimx = (t_doub2){ e->dimx.a + delta.a, e->dimx.b + delta.b };
 	else if (kc == KC_A || kc == KC_LEFT)
-	{
-		e->dimx.a -= delta.a;
-		e->dimx.b -= delta.a;
-	}
+		e->dimx = (t_doub2){ e->dimx.a - delta.a, e->dimx.b - delta.b };
 	else if (kc == KC_S || kc == KC_DOWN)
-	{
-		e->dimy.a += delta.a;
-		e->dimy.b += delta.a;
-	}
+		e->dimy = (t_doub2){ e->dimy.a + delta.a, e->dimy.b + delta.b };
 	else if (kc == KC_W || kc == KC_UP)
-	{
-		e->dimy.a -= delta.a;
-		e->dimy.b -= delta.a;
-	}
+		e->dimy = (t_doub2){ e->dimy.a - delta.a, e->dimy.b - delta.b };
 	(e->fract_code == 5 || e->fract_code == 6) ? e->renderer(e) : rdr_cmd(e);
 	return (1);
 }
@@ -124,14 +112,13 @@ int				handle_mouse_btn(int btn, int x, int y, void *param)
 	}
 	else if (btn == 5)
 	{
-		//
 	}
 	return (0);
 }
 
 int				expose(void *param)
 {
-	t_env 		*e;
+	t_env		*e;
 
 	e = (t_env *)param;
 	(e->fract_code == 5 || e->fract_code == 6) ? e->renderer(e) : rdr_cmd(e);

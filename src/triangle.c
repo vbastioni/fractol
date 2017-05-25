@@ -6,18 +6,18 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 17:09:58 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 17:10:04 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 17:37:34 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void	draw_line(t_env *e, t_int2 *from, t_int2 *to)
+static void		draw_line(t_env *e, t_int2 *from, t_int2 *to)
 {
-	t_int2	curr;
-	t_int2	delta;
-	double	len;
-	int		i;
+	t_int2		curr;
+	t_int2		delta;
+	double		len;
+	int			i;
 
 	i = 0;
 	delta = (t_int2){ to->a - from->a, to->b - from->b };
@@ -34,11 +34,11 @@ static void	draw_line(t_env *e, t_int2 *from, t_int2 *to)
 	}
 }
 
-static int	draw_tri(t_env *e,t_int2 *pos, int len, int depth)
+static int		draw_tri(t_env *e, t_int2 *pos, int len, int depth)
 {
-	t_int2 lp;
-	t_int2 hp;
-	int		half;
+	t_int2		lp;
+	t_int2		hp;
+	int			half;
 
 	if (depth == 0)
 		return (0);
@@ -51,7 +51,7 @@ static int	draw_tri(t_env *e,t_int2 *pos, int len, int depth)
 	depth--;
 	lp = (t_int2){ pos->a - half, pos->b };
 	draw_tri(e, &lp, half, depth);
-	lp = (t_int2){ pos->a - len / 4, 
+	lp = (t_int2){ pos->a - len / 4,
 					pos->b - sqrt(half * half + len * len) / 2 };
 	draw_tri(e, &lp, half, depth);
 	lp = (t_int2){ pos->a, pos->b };
@@ -59,9 +59,9 @@ static int	draw_tri(t_env *e,t_int2 *pos, int len, int depth)
 	return (0);
 }
 
-int		draw_triangle(t_env *e)
+int				draw_triangle(t_env *e)
 {
-	t_int2 init;
+	t_int2		init;
 
 	init = (t_int2){WIN_X - 1, WIN_Y - 1};
 	img_clear(e);

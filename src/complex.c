@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   complex.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/25 17:19:30 by vbastion          #+#    #+#             */
+/*   Updated: 2017/05/25 17:20:26 by vbastion         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
 double			cmp_abs(const t_cmp *cmp)
@@ -17,9 +29,9 @@ t_cmp			cmp_mult(const t_cmp *lhs, const t_cmp *rhs)
 t_cmp			cmp_sub(const t_cmp *lhs, const t_cmp *rhs)
 {
 	t_cmp		tmp;
-	
+
 	tmp.re = lhs->re - rhs->re;
-	tmp.im = lhs->im - rhs->im;	
+	tmp.im = lhs->im - rhs->im;
 	return (tmp);
 }
 

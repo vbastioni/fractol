@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 10:44:08 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 17:10:41 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 17:39:22 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ int					main(int ac, char **av)
 	t_env			e;
 
 	e.fnames = (char *[8]){MANDEL, JULIA, SHIP, TREE, NEWTON, TRIANGLE,
-								SPONGE, 0};
-	if (ac == 1 || (!valid_args(ac, av, &e))) 
+							SPONGE, 0};
+	if (ac == 1 || (!valid_args(ac, av, &e)))
 		return (usage(av[0], &e));
 	if (!(e.mlx = mlx_init()))
 		return (err("Could not init mlx.\n"));

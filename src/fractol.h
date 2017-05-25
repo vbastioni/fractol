@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 17:16:22 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 17:45:22 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 # include <stdlib.h>
 # include <mlx.h>
 # include <math.h>
-#include <pthread.h>
-# include <stdio.h> //
+# include <pthread.h>
 
 # include "libft.h"
 

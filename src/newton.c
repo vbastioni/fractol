@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 11:09:37 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 14:51:31 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 17:32:26 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static inline t_cmp	map(t_cmp *cmp, t_int2 *dims, t_env *env)
 	return (*cmp);
 }
 
-static float	cmp_abs2(const t_cmp *lhs, const t_cmp *rhs)
+static float		cmp_abs2(const t_cmp *lhs, const t_cmp *rhs)
 {
-	t_cmp	tmp;
+	t_cmp			tmp;
 
 	tmp.re = lhs->re - rhs->re;
 	tmp.im = lhs->im - rhs->im;
@@ -32,9 +32,9 @@ static float	cmp_abs2(const t_cmp *lhs, const t_cmp *rhs)
 
 static inline void	cmp_cvt(t_cmp *curr)
 {
-	t_cmp ta;
-	t_cmp tb;
-	t_cmp tc;
+	t_cmp			ta;
+	t_cmp			tb;
+	t_cmp			tc;
 
 	if (cmp_abs(curr) > 0)
 	{
@@ -48,12 +48,12 @@ static inline void	cmp_cvt(t_cmp *curr)
 	}
 }
 
-static inline int	get_color(const t_cmp *curr, const t_env *env, 
+static inline int	get_color(const t_cmp *curr, const t_env *env,
 								const double *max_mod, const int cnt)
 {
-	t_color		col;
-	int			m;
-	int			n;
+	t_color			col;
+	int				m;
+	int				n;
 
 	m = env->newton_mode;
 	n = ((env->newton_mode & 1) == 1) ? *max_mod : cnt;
@@ -67,17 +67,18 @@ static inline int	get_color(const t_cmp *curr, const t_env *env,
 	return (col.co);
 }
 
-int			draw_newton(t_env *env, t_int2 *pos)
+int					draw_newton(t_env *env, t_int2 *pos)
 {
-	t_cmp		curr;
-	int			cnt;
-	double		max_mod;
+	t_cmp			curr;
+	int				cnt;
+	double			max_mod;
 
 	map(&curr, pos, env);
 	cnt = 0;
 	max_mod = 0.;
 	while ((cnt < N_MAX_CNT) && cmp_abs2(&curr, env->r) > N_TOL
-			&& cmp_abs2(&curr, (env->r + 1)) > N_TOL && cmp_abs2(&curr, (env->r + 2)) > N_TOL)
+			&& cmp_abs2(&curr, (env->r + 1)) > N_TOL
+			&& cmp_abs2(&curr, (env->r + 2)) > N_TOL)
 	{
 		cmp_cvt(&curr);
 		if (env->newton_mode && cmp_abs(&curr) > max_mod)
