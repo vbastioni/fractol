@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 16:30:40 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 17:16:22 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,6 @@ int						color_get_bones(double val);
 int						color_get_blue(double val);
 
 int						color_scale_get(double progress, const t_env *env);
-int						color_get(double val, t_env *env);
 int						color_smoothen(t_cmp *c, long index, t_env *env);
 
 /*

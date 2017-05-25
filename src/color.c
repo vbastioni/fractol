@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 10:22:59 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 13:53:14 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 17:15:46 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,6 @@ int					color_scale_get(double progress, const t_env *env)
 	return (env->col_getter[env->color_scale_id](progress));
 }
 
-int					color_get(double val, t_env *env)
-{
-	const double	*scales[3] = (const double *[3]) {
-		(const double[2]){0., 1.},
-			(const double[2]){0., 1.},
-			(const double[2]){1., 1.}
-	};
-	t_color			c;
-	double			de;
-
-	(void)env;
-	de = val / MAX_ITER;
-	c.c[3] = 0x0;
-	c.c[2] = (scales[0][0] + (scales[0][1] - scales[0][0]) * de) * 0xFF * 100;
-	c.c[1] = (scales[1][0] + (scales[1][1] - scales[1][0]) * de) * 0xFF * 100;
-	c.c[0] = (scales[2][0] + (scales[2][1] - scales[2][0]) * de) * 0xFF * 100;
-	return (c.co);
-}
-
 int					color_smoothen(t_cmp *c, long index, t_env *env)
 {
 	double			zn;
@@ -83,6 +64,4 @@ int					color_smoothen(t_cmp *c, long index, t_env *env)
 	if (i < 0)
 		i = 0;
 	return (color_scale_get(i / MAX_ITER, env));
-	(void)env;
-	return (color_get(i, env));
 }
