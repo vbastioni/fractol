@@ -6,94 +6,119 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 12:31:30 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 10:55:55 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 17:11:38 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static int		move(int kc, t_env *env)
+static int		move(int kc, t_env *e)
 {
 	t_doub2		delta;
 
-	delta.a = (env->dimx.b - env->dimx.a) * .1;
-	delta.b = (env->dimy.b - env->dimy.a) * .1;
+	delta.a = (e->dimx.b - e->dimx.a) * .1;
+	delta.b = (e->dimy.b - e->dimy.a) * .1;
 	if (kc == KC_D || kc == KC_RIGHT)
 	{
-		env->dimx.a += delta.a;
-		env->dimx.b += delta.a;
+		e->dimx.a += delta.a;
+		e->dimx.b += delta.a;
 	}
 	else if (kc == KC_A || kc == KC_LEFT)
 	{
-		env->dimx.a -= delta.a;
-		env->dimx.b -= delta.a;
+		e->dimx.a -= delta.a;
+		e->dimx.b -= delta.a;
 	}
 	else if (kc == KC_S || kc == KC_DOWN)
 	{
-		env->dimy.a += delta.a;
-		env->dimy.b += delta.a;
+		e->dimy.a += delta.a;
+		e->dimy.b += delta.a;
 	}
 	else if (kc == KC_W || kc == KC_UP)
 	{
-		env->dimy.a -= delta.a;
-		env->dimy.b -= delta.a;
+		e->dimy.a -= delta.a;
+		e->dimy.b -= delta.a;
 	}
-	env->renderer(env);
+	(e->fract_code == 5 || e->fract_code == 6) ? e->renderer(e) : rdr_cmd(e);
 	return (1);
 }
 
-int				reset(t_env *env)
+int				reset(t_env *e)
 {
-	env->dimx = env->def_dimx;
-	env->dimy = env->def_dimy;
-	env->renderer(env);
+	e->dimx = e->def_dimx;
+	e->dimy = e->def_dimy;
+	(e->fract_code == 5 || e->fract_code == 6) ? e->renderer(e) : rdr_cmd(e);
+	return (0);
+}
+
+int				change_mode(t_env *e)
+{
+	if (e->fract_code != 4)
+		return (0);
+	e->newton_mode++;
+	if (e->newton_mode > 3)
+		e->newton_mode = 0;
+	(e->fract_code == 5 || e->fract_code == 6) ? e->renderer(e) : rdr_cmd(e);
+	return (1);
+}
+
+int				swap_color(t_env *e)
+{
+	e->color_scale_id++;
+	if (e->color_scale_id > MAX_COLOR_SCALE)
+		e->color_scale_id = 0;
+	(e->fract_code == 5 || e->fract_code == 6) ? e->renderer(e) : rdr_cmd(e);
 	return (0);
 }
 
 int				handle_key(int kc, void *param)
 {
-	t_env		*env;
+	t_env		*e;
 
-	env = (t_env *)param;
+	e = (t_env *)param;
 	if (kc == KC_EXIT)
 		exit(0);
 	if (kc == KC_LEFT || kc == KC_A || kc == KC_RIGHT || kc == KC_D
 			|| kc == KC_DOWN || kc == KC_S || kc == KC_UP || kc == KC_W)
-		move(kc, env);
+		move(kc, e);
+	if (kc == KC_SPACE)
+		change_mode(e);
 	if (kc == KC_R)
-		reset(env);
+		reset(e);
+	if (kc == KC_TAB)
+		swap_color(e);
 	return (0);
 }
 
 int				handle_mouse(int x, int y, void *param)
 {
-	t_env *env;
+	t_env *e;
 
-	env = (t_env *)param;
-	if ((env->params & 8) == 0 || x < 0 || y < 0 || x > WIN_X || y > WIN_Y)
+	e = (t_env *)param;
+	if (e->fract_code != 1 || (e->params & 8) == 0 || x < 0 || y < 0
+		|| x > WIN_X || y > WIN_Y)
 		return (0);
-	env->mouse = (t_int2){x, y};
-	rdr_cmd(env);
+	e->mouse = (t_int2){x, y};
+	(e->fract_code == 5 || e->fract_code == 6) ? e->renderer(e) : rdr_cmd(e);
 	return (0);
 }
 
 int				handle_mouse_btn(int btn, int x, int y, void *param)
 {
-	t_env		*env;
+	t_env		*e;
 	t_doub2		d;
 
 	return (0);
 	if (btn > 5)
 		return (0);
-	env = (t_env *)param;
-	d.a = ((double)x / WIN_X) * (env->dimx.b - env->dimx.a);
-	env->dimx.a += d.a * (btn == 4 ? -1 : 1);
-	env->dimx.b += d.a * (btn == 4 ? -1 : 1);
-	d.b = ((double)y / WIN_Y) * (env->dimy.b - env->dimy.a);
-	env->dimy.a += d.b * (btn == 4 ? -1 : 1);
-	env->dimy.b += d.b * (btn == 4 ? -1 : 1);
+	e = (t_env *)param;
+	d.a = ((double)x / WIN_X) * (e->dimx.b - e->dimx.a);
+	e->dimx.a += d.a * (btn == 4 ? -1 : 1);
+	e->dimx.b += d.a * (btn == 4 ? -1 : 1);
+	d.b = ((double)y / WIN_Y) * (e->dimy.b - e->dimy.a);
+	e->dimy.a += d.b * (btn == 4 ? -1 : 1);
+	e->dimy.b += d.b * (btn == 4 ? -1 : 1);
 	printf("d:[%f, %f]\n", d.a, d.b);
-	env->renderer(env);
+	e->renderer(e);
 	if (btn == 4)
 	{
 	}
@@ -106,10 +131,9 @@ int				handle_mouse_btn(int btn, int x, int y, void *param)
 
 int				expose(void *param)
 {
-	t_env *		env;
+	t_env 		*e;
 
-	env = (t_env *)param;
-	rdr_cmd(env);
-//	env->renderer(env);
+	e = (t_env *)param;
+	(e->fract_code == 5 || e->fract_code == 6) ? e->renderer(e) : rdr_cmd(e);
 	return (0);
 }

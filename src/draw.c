@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 12:02:35 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 10:23:02 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 12:21:57 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void			do_iter(t_uchar flags, t_doub2 *tmp, t_cmp *curr, t_cmp *c,
 		do_iter((env->params & 0xB), &tmp, &curr, &c, &iter);
 		if ((env->params & 2))
 			do_iter((env->params & 0xB), &tmp, &curr, &c, &iter);
-		return (color_smoothen(&curr, iter));
+		return (color_smoothen(&curr, iter, env));
 	}
 	return (0);
 }

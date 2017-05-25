@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 11:09:37 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 11:26:09 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 14:51:31 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,22 @@ static inline void	cmp_cvt(t_cmp *curr)
 	}
 }
 
-static int	get_color(const t_cmp *curr, const t_env *env, 
-						const double *max_mod, const int cnt)
+static inline int	get_color(const t_cmp *curr, const t_env *env, 
+								const double *max_mod, const int cnt)
 {
 	t_color		col;
+	int			m;
+	int			n;
 
-	col.co = 0x0;
+	m = env->newton_mode;
+	n = ((env->newton_mode & 1) == 1) ? *max_mod : cnt;
+	col.co = ((m < 2) ? color_scale_get(n / (double)N_MAX_CNT, env) : 0);
 	if (cmp_abs2(curr, env->r) < N_TOL)
-		col.c[2] = (env->newton_mode ? *max_mod : cnt) * N_MULT_COL;
+		col.c[2] = ((m < 2) ? col.c[2] : n) * N_MULT_COL;
 	if (cmp_abs2(curr, (env->r + 1)) <= N_TOL)
-		col.c[1] = (env->newton_mode ? *max_mod : cnt) * N_MULT_COL;
+		col.c[1] = ((m < 2) ? col.c[1] : n) * N_MULT_COL;
 	if (cmp_abs2(curr, (env->r + 2)) <= N_TOL)
-		col.c[0] = (env->newton_mode ? *max_mod : cnt) * N_MULT_COL;
+		col.c[0] = ((m < 2) ? col.c[0] : n) * N_MULT_COL;
 	return (col.co);
 }
 
@@ -82,51 +86,3 @@ int			draw_newton(t_env *env, t_int2 *pos)
 	}
 	return (get_color(&curr, env, &max_mod, cnt));
 }
-
-/*
-int			draw_newton(t_env *env)
-{
-	const t_cmp	r[3] = (const t_cmp[3]){
-		(const t_cmp){1., 0},
-			(const t_cmp){-0.5, 0.86602540378},
-			(const t_cmp){-0.5, -0.86602540378}
-	};
-	t_int2		dims = (t_int2){0, 0};
-	int			cnt;
-	double		max_mod;
-	t_color		col;
-	t_cmp		curr;
-
-	img_clear(env);
-	while (dims.b < WIN_Y)
-	{
-		dims.a = 0;
-		while (dims.a < WIN_X)
-		{
-			map(&curr, &dims, env);
-			cnt = 0;
-			max_mod = 0.;
-			while ((cnt < N_MAX_CNT) && cmp_abs2(&curr, r) > N_TOL
-					&& cmp_abs2(&curr, (r + 1)) > N_TOL && cmp_abs2(&curr, (r + 2)) > N_TOL)
-			{
-				cmp_cvt(&curr);
-				if (env->newton_mode && cmp_abs(&curr) > max_mod)
-					max_mod = cmp_abs(&curr);
-				cnt++;
-			}
-			col.co = 0x0;
-			if (cmp_abs2(&curr, r) < N_TOL)
-				col.c[2] = (env->newton_mode ? max_mod : cnt) * N_MULT_COL;
-			if (cmp_abs2(&curr, (r + 1)) <= N_TOL)
-				col.c[1] = (env->newton_mode ? max_mod : cnt) * N_MULT_COL;
-			if (cmp_abs2(&curr, (r + 2)) <= N_TOL)
-				col.c[0] = (env->newton_mode ? max_mod : cnt) * N_MULT_COL;
-			*(img_get_addr(env, &dims)) = col.co;
-			dims.a++;
-		}
-		dims.b++;
-	}
-	img_to_win(env);
-	return (0);
-}
-*/

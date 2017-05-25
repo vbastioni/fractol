@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 11:29:18 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 16:30:40 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@
 # define WIN_X (800)
 # define WIN_Y (800)
 # define WIN_NAME ("Fractol")
-# define PTH_CNT (4)
+# define PTH_CNT (8)
+
+# define MAX_COLOR_SCALE (1)
 
 # define DEF_TREE_LEN (200)
 
@@ -53,10 +55,13 @@
 # define TO_RAD (0.01745329251994329577)
 
 # define MAX_MOD (4.)
-# define MAX_ITER (2048)
+# define MAX_ITER (1024)
 # define LOW_ITER (128)
 
 # define KC_EXIT (53)
+
+# define KC_SPACE (49)
+# define KC_TAB (48)
 
 # define KC_W 13
 # define KC_S 1
@@ -144,8 +149,15 @@ struct					s_env
 	float				tree_step;
 	float				tree_min_len;
 	int					sponge_depth;
+	int					(*col_getter[2])();
+	int					color_scale_id;
+	int					fract_code;
 	t_cmp				r[3];
 };
+
+/*
+**	DRAWERS
+*/
 
 int						draw_mandel(t_env *env, t_int2 *pos);
 int						draw_tree(t_env *env);
@@ -153,17 +165,37 @@ int						draw_newton(t_env *env, t_int2 *pos);
 int						draw_sponge(t_env *env);
 int						draw_triangle(t_env *env);
 
+/*
+**	UTILITY
+*/
+
 int						usage(const char *name, const t_env *env);
 int						valid_args(const int ac, char **av, const t_env *env);
 int						err(const char *msg);
 
-int						color_get(double val);
-int						color_smoothen(t_cmp *c, long index);
+/*
+**	COLOR HANDLING
+*/
+
+int						color_get_bones(double val);
+int						color_get_blue(double val);
+
+int						color_scale_get(double progress, const t_env *env);
+int						color_get(double val, t_env *env);
+int						color_smoothen(t_cmp *c, long index, t_env *env);
+
+/*
+**	IMG WORK
+*/
 
 int						img_create(t_env *env);
 int						img_clear(t_env *env);
 int						*img_get_addr(t_env *env, t_int2 *pos);
 int						img_to_win(t_env *env);
+
+/*
+**	CALLBACKS
+*/
 
 int						expose(void *param);
 int						handle_key(int kc, void *param);
