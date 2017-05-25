@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/20 17:36:59 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 10:58:55 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 # include <stdlib.h>
 # include <mlx.h>
 # include <math.h>
-// #include pthread.h
+#include <pthread.h>
 # include <stdio.h> //
 
 # include "libft.h"
+
+# define DEBUG (1)
 
 # define MANDEL ("mandelbrot")
 # define JULIA ("julia")
@@ -32,6 +34,7 @@
 # define WIN_X (800)
 # define WIN_Y (800)
 # define WIN_NAME ("Fractol")
+# define PTH_CNT (4)
 
 # define DEF_TREE_LEN (200)
 
@@ -51,7 +54,7 @@
 
 # define MAX_MOD (4.)
 # define MAX_ITER (2048)
-# define LOW_ITER (32)
+# define LOW_ITER (128)
 
 # define KC_EXIT (53)
 
@@ -132,9 +135,10 @@ struct					s_env
 	void				*mlx;
 	void				*win;
 	t_img				img;
+	int					*pixels;
 	int					(*renderer)();
-	p_thread_t			cth[PTH_CNT];
-	t_pth				wth[PTH_CNT];
+	pthread_t			wth[PTH_CNT];
+	t_pth				cth[PTH_CNT];
 	t_uchar				params;
 	int					newton_mode;
 	float				tree_step;
@@ -142,7 +146,7 @@ struct					s_env
 	int					sponge_depth;
 };
 
-int						draw_mandel(t_env *env);
+int						draw_mandel(t_env *env, t_int2 *pos);
 int						draw_tree(t_env *env);
 int						draw_newton(t_env *env);
 int						draw_sponge(t_env *env);
@@ -164,6 +168,8 @@ int						expose(void *param);
 int						handle_key(int kc, void *param);
 int						handle_mouse(int x, int y, void *param);
 int						handle_mouse_btn(int btn, int x, int y, void *param);
+
+void					rdr_cmd(t_env *env);
 
 /*
 **	Complex numbers functions

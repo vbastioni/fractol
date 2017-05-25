@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 12:31:30 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/20 17:39:10 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 10:55:55 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int				handle_mouse(int x, int y, void *param)
 	if ((env->params & 8) == 0 || x < 0 || y < 0 || x > WIN_X || y > WIN_Y)
 		return (0);
 	env->mouse = (t_int2){x, y};
-	env->renderer(env);
+	rdr_cmd(env);
 	return (0);
 }
 
@@ -82,6 +82,7 @@ int				handle_mouse_btn(int btn, int x, int y, void *param)
 	t_env		*env;
 	t_doub2		d;
 
+	return (0);
 	if (btn > 5)
 		return (0);
 	env = (t_env *)param;
@@ -108,6 +109,7 @@ int				expose(void *param)
 	t_env *		env;
 
 	env = (t_env *)param;
-	env->renderer(env);
+	rdr_cmd(env);
+//	env->renderer(env);
 	return (0);
 }

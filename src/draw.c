@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 12:02:35 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/20 13:59:16 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 10:23:02 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static inline t_cmp	map(t_cmp *cmp, t_int2 *dims, t_env *env)
 	return (*cmp);
 }
 
-static void			do_iter(t_uchar flags, t_doub2 *tmp, t_cmp *curr, t_cmp *c, int *iter)
+static void			do_iter(t_uchar flags, t_doub2 *tmp, t_cmp *curr, t_cmp *c,
+							int *iter)
 {
 	double			twoab;
 
@@ -47,7 +48,7 @@ static void			do_iter(t_uchar flags, t_doub2 *tmp, t_cmp *curr, t_cmp *c, int *i
 	(*iter)++;
 }
 
-static int			draw_pixel(t_env *env, t_int2 *dims)
+ int				draw_mandel(t_env *env, t_int2 *dims)
 {
 	t_cmp			curr;
 	t_cmp			c;
@@ -56,39 +57,18 @@ static int			draw_pixel(t_env *env, t_int2 *dims)
 
 	iter = 0;
 	map(&curr, dims, env);
-	c = (env->params & 8) ? env->mapped_mouse : curr;
+	c = (env->params & 8) ? map(&env->mapped_mouse, &env->mouse, env) : curr;
 	while (iter < ((env->params & 1) ? LOW_ITER : MAX_ITER)
 			&& (curr.re * curr.re + curr.im * curr.im) < MAX_MOD)
 		do_iter(env->params, &tmp, &curr, &c, &iter);
 	if (iter == ((env->params & 1) ? LOW_ITER : MAX_ITER))
-		*(img_get_addr(env, dims)) = 0x0;
+		return (0x0);
 	else
 	{
 		do_iter((env->params & 0xB), &tmp, &curr, &c, &iter);
 		if ((env->params & 2))
 			do_iter((env->params & 0xB), &tmp, &curr, &c, &iter);
-		*(img_get_addr(env, dims)) = color_smoothen(&curr, iter);
+		return (color_smoothen(&curr, iter));
 	}
-	return (0);
-}
-
-int					draw_mandel(t_env *env)
-{
-	t_int2			dims;
-
-	img_clear(env);
-	dims = (t_int2){0, 0};
-	map(&env->mapped_mouse, &env->mouse, env);
-	while (dims.b < WIN_Y)
-	{
-		dims.a = 0;
-		while (dims.a < WIN_X)
-		{
-			draw_pixel(env, &dims);
-			dims.a++;
-		}
-		dims.b++;
-	}
-	img_to_win(env);
 	return (0);
 }

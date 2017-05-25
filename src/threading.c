@@ -1,24 +1,52 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   threading.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/25 10:12:35 by vbastion          #+#    #+#             */
+/*   Updated: 2017/05/25 10:56:04 by vbastion         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
-void		*rdr_thread(void *pth)
+static void		*rdr_thread(void *pth)
 {
 	t_pth		*th;
 	t_int2		pos;
 	int			y_max;
 
-	th = (t_thread *)pth;
+	th = (t_pth *)pth;
 	pos.a = WIN_Y / PTH_CNT * th->id - 1;
 	y_max = WIN_Y / PTH_CNT * (th->id + 1);
 	while (++pos.a < y_max)
 	{
 		pos.b = -1;
 		while (++pos.b < WIN_X)
-			env->pixel[pos.b + pos.a * WIN_X] = env->rdr(env, &pos);
-		}
+			th->env->pixels[pos.b + pos.a * WIN_X] = th->env->renderer(th->env, 
+																		&pos);
 	}
+	return (0);
 }
 
-void		rdr_cmd(t_env *env)
+static void		rdr_loop(t_env *env)
+{
+	t_int2		pos;
+
+	img_clear(env);
+	pos.a = -1;
+	while (++pos.a < WIN_Y)
+	{
+		pos.b = -1;
+		while (++pos.b < WIN_X)
+			*(img_get_addr(env, &pos)) = env->pixels[pos.b + pos.a * WIN_X];
+	}
+	img_to_win(env);
+}
+
+void			rdr_cmd(t_env *env)
 {	
 	int			i;
 
@@ -31,21 +59,6 @@ void		rdr_cmd(t_env *env)
 	}
 	i = -1;
 	while (++i < PTH_CNT)
-		pthread_join(r->threads[i], NULL);
+		pthread_join(env->wth[i], NULL);
 	rdr_loop(env);
-}
-
-void		rdr_loop(t_env *env)
-{
-	t_int2		pos;
-
-	img_clear(env);
-	pos.a = -1;
-	while (++pos.a < WIN_Y)
-	{
-		pos.b = -1;
-		while (++pos.b < WIN_X)
-			*(img_get_addr(env, &pos)) = env->pixel[pos.y + pos.x * WIN_X];
-	}
-	img_to_win(env);
 }

@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 10:44:08 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/20 17:34:39 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 10:54:41 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,9 @@ int					env_setup(t_env *env, const char *name)
 	if (!(img_create(env)))
 		return (0 * err("Error with mlx image.\n"));
 	env->mouse = (t_int2){0, 0};
-	return (0);
+	if (!(env->pixels = (int *)malloc(sizeof(int) * (WIN_X * WIN_Y))))
+		return (0 * err("Could not allocate pixel array.\n"));
+	return (1);
 }
 
 int					main(int ac, char **av)
@@ -107,8 +109,8 @@ int					main(int ac, char **av)
 		return (err("Could not init mlx.\n"));
 	if (!(env.win = mlx_new_window(env.mlx, WIN_X, WIN_Y, WIN_NAME)))
 		return (err("Could not create mlx window.\n"));
-	env_setup(&env, av[1]);
-//	env.renderer(&env);
+	if (!(env_setup(&env, av[1])))
+		return (err("Could not setup env.\n"));
 	mlx_key_hook(env.win, &handle_key, &env);
 	mlx_hook(env.win, EVT_MOTION, EVT_MOTION_MASK, handle_mouse, &env);
 	mlx_expose_hook(env.win, &expose, &env);
