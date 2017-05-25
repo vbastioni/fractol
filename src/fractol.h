@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 10:58:55 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 11:29:18 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,11 +144,12 @@ struct					s_env
 	float				tree_step;
 	float				tree_min_len;
 	int					sponge_depth;
+	t_cmp				r[3];
 };
 
 int						draw_mandel(t_env *env, t_int2 *pos);
 int						draw_tree(t_env *env);
-int						draw_newton(t_env *env);
+int						draw_newton(t_env *env, t_int2 *pos);
 int						draw_sponge(t_env *env);
 int						draw_triangle(t_env *env);
 

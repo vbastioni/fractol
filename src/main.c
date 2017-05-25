@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 10:44:08 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 10:54:41 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/25 11:23:23 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ void				env_set_tree(t_env *env)
 
 void				env_set_newton(t_env *env)
 {
+	env->r[0] = (t_cmp){1., 0.};
+	env->r[1] = (t_cmp){-.5, .86602540378};
+	env->r[2] = (t_cmp){-.5, -.86602540378};
 	env->dimx = (t_doub2){-2., 2.};
 	env->dimy = (t_doub2){-2., 2.};
 	env->renderer = &draw_newton;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   newton.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/25 11:09:37 by vbastion          #+#    #+#             */
+/*   Updated: 2017/05/25 11:26:09 by vbastion         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
 static inline t_cmp	map(t_cmp *cmp, t_int2 *dims, t_env *env)
@@ -36,6 +48,42 @@ static inline void	cmp_cvt(t_cmp *curr)
 	}
 }
 
+static int	get_color(const t_cmp *curr, const t_env *env, 
+						const double *max_mod, const int cnt)
+{
+	t_color		col;
+
+	col.co = 0x0;
+	if (cmp_abs2(curr, env->r) < N_TOL)
+		col.c[2] = (env->newton_mode ? *max_mod : cnt) * N_MULT_COL;
+	if (cmp_abs2(curr, (env->r + 1)) <= N_TOL)
+		col.c[1] = (env->newton_mode ? *max_mod : cnt) * N_MULT_COL;
+	if (cmp_abs2(curr, (env->r + 2)) <= N_TOL)
+		col.c[0] = (env->newton_mode ? *max_mod : cnt) * N_MULT_COL;
+	return (col.co);
+}
+
+int			draw_newton(t_env *env, t_int2 *pos)
+{
+	t_cmp		curr;
+	int			cnt;
+	double		max_mod;
+
+	map(&curr, pos, env);
+	cnt = 0;
+	max_mod = 0.;
+	while ((cnt < N_MAX_CNT) && cmp_abs2(&curr, env->r) > N_TOL
+			&& cmp_abs2(&curr, (env->r + 1)) > N_TOL && cmp_abs2(&curr, (env->r + 2)) > N_TOL)
+	{
+		cmp_cvt(&curr);
+		if (env->newton_mode && cmp_abs(&curr) > max_mod)
+			max_mod = cmp_abs(&curr);
+		cnt++;
+	}
+	return (get_color(&curr, env, &max_mod, cnt));
+}
+
+/*
 int			draw_newton(t_env *env)
 {
 	const t_cmp	r[3] = (const t_cmp[3]){
@@ -81,3 +129,4 @@ int			draw_newton(t_env *env)
 	img_to_win(env);
 	return (0);
 }
+*/
