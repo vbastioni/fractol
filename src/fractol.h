@@ -78,6 +78,8 @@ typedef struct s_cmp	t_cmp;
 typedef struct s_int2	t_int2;
 typedef struct s_doub2	t_doub2;
 typedef struct s_img	t_img;
+typedef struct s_pth	t_pth;
+typedef struct s_rdr	t_rdr;
 
 union					u_color
 {
@@ -112,6 +114,12 @@ struct					s_img
 	int					endian;
 };
 
+struct					s_pth
+{
+	int					id;
+	t_env				*env;
+};
+
 struct					s_env
 {
 	char				**fnames;
@@ -125,6 +133,8 @@ struct					s_env
 	void				*win;
 	t_img				img;
 	int					(*renderer)();
+	p_thread_t			cth[PTH_CNT];
+	t_pth				wth[PTH_CNT];
 	t_uchar				params;
 	int					newton_mode;
 	float				tree_step;
