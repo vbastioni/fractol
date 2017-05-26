@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/26 14:38:15 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/26 16:20:59 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,23 @@ int						handle_key(int kc, void *param);
 int						handle_mouse(int x, int y, void *param);
 int						handle_mouse_btn(int btn, int x, int y, void *param);
 
+int						cb_qe(int fwd, t_env *e);
+
+int						reset(t_env *e);
+int						change_mode(t_env *e);
+int						swap_color(t_env *e);
+
 void					rdr_cmd(t_env *env);
+
+/*
+**	PREPARATION
+*/
+
+void					env_set_mandel(t_env *e, int id);
+void					env_set_tree(t_env *e);
+void					env_set_newton(t_env *e);
+void					env_set_sponge(t_env *e);
+void					env_set_triangle(t_env *e);
 
 /*
 **	Complex numbers functions

@@ -13,15 +13,20 @@ ITEM:=\
 	callback.o\
 	color.o\
 	complex.o\
+	env_setter.o\
+	gradient.o\
+	handler.o\
 	img.o\
 	main.o\
 	mandel.o\
 	newton.o\
+	qe_event.o\
 	sponge.o\
 	threading.o\
 	tree.o\
 	triangle.o\
-	utils.o
+	utils.o\
+	util_math.o
 OBJ:=$(addprefix ./src/, $(ITEM))
 
 $(NAME): $(OBJ)

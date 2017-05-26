@@ -6,20 +6,11 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 12:26:30 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/26 14:41:54 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/26 15:54:35 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-int					clamp(int val, int min, int max)
-{
-	if (val > max)
-		val = max;
-	if (val < min)
-		val = min;
-	return (val);
-}
 
 void				bckgd(t_env *e)
 {
