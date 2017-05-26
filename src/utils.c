@@ -19,7 +19,7 @@ int				usage(const char *name, const t_env *env)
 	fnames = env->fnames;
 	ft_putstr("\e[31mUsage:\e[0m ");
 	ft_putstr(name);
-	ft_putstr("\e[32m <fractal> \e[33m[<fractal>]\e[0m\n");
+	ft_putstr("\e[32m <fractal>\e[0m\n");
 	while (*fnames)
 	{
 		ft_putstr("\t");

@@ -49,7 +49,7 @@ static inline void	cmp_cvt(t_cmp *curr)
 }
 
 static inline int	get_color(const t_cmp *curr, const t_env *env,
-								const double *max_mod, const int cnt)
+		const double *max_mod, const int cnt)
 {
 	t_color			col;
 	int				m;
@@ -58,12 +58,27 @@ static inline int	get_color(const t_cmp *curr, const t_env *env,
 	m = env->newton_mode;
 	n = ((env->newton_mode & 1) == 1) ? *max_mod : cnt;
 	col.co = ((m < 2) ? color_scale_get(n / (double)N_MAX_CNT, env) : 0);
-	if (cmp_abs2(curr, env->r) < N_TOL)
-		col.c[2] = ((m < 2) ? col.c[2] : n) * N_MULT_COL;
-	if (cmp_abs2(curr, (env->r + 1)) <= N_TOL)
-		col.c[1] = ((m < 2) ? col.c[1] : n) * N_MULT_COL;
-	if (cmp_abs2(curr, (env->r + 2)) <= N_TOL)
-		col.c[0] = ((m < 2) ? col.c[0] : n) * N_MULT_COL;
+	if (m < 4)
+	{
+		if (cmp_abs2(curr, env->r) < N_TOL)
+			col.c[2] = ((m < 2) ? col.c[2] : n) * N_MULT_COL;
+		if (cmp_abs2(curr, (env->r + 1)) <= N_TOL)
+			col.c[1] = ((m < 2) ? col.c[1] : n) * N_MULT_COL;
+		if (cmp_abs2(curr, (env->r + 2)) <= N_TOL)
+			col.c[0] = ((m < 2) ? col.c[0] : n) * N_MULT_COL;
+	}
+	else
+	{
+		m -= 2;
+		if (cmp_abs2(curr, env->r) < N_TOL
+			|| cmp_abs2(curr, env->r + 1) <= N_TOL
+			|| (cmp_abs2(curr, env->r + 2) <= N_TOL))
+		{
+			col.c[2] = 255 - ((m < 2) ? col.c[2] : n) * N_MULT_COL;
+			col.c[1] = ((m < 2) ? col.c[1] : n) * N_MULT_COL;
+			col.c[0] = 255 - ((m < 2) ? col.c[0] : n) * N_MULT_COL;
+		}
+	}
 	return (col.co);
 }
 

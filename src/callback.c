@@ -40,10 +40,10 @@ int				reset(t_env *e)
 
 int				change_mode(t_env *e)
 {
-	if (e->fid != 4)
+	if (e->fid != 3)
 		return (0);
 	e->newton_mode++;
-	if (e->newton_mode > 3)
+	if (e->newton_mode > 5)
 		e->newton_mode = 0;
 	(e->fid > 3) ? e->renderer(e) : rdr_cmd(e);
 	return (1);
