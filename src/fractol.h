@@ -35,7 +35,7 @@
 # define WIN_NAME ("Fractol")
 # define PTH_CNT (8)
 
-# define MAX_COLOR_SCALE (1)
+# define COL_GRAD_CNT (3)
 
 # define DEF_TREE_LEN (200)
 
@@ -148,9 +148,9 @@ struct					s_env
 	float				tree_step;
 	float				tree_min_len;
 	int					sponge_depth;
-	int					(*col_getter[2])();
+	int					(*col_getter[COL_GRAD_CNT])();
 	int					color_scale_id;
-	int					fract_code;
+	int					fid;
 	t_cmp				r[3];
 };
 
@@ -176,6 +176,7 @@ int						err(const char *msg);
 **	COLOR HANDLING
 */
 
+int						color_get_copper(double val);
 int						color_get_bones(double val);
 int						color_get_blue(double val);
 

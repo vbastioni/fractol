@@ -26,7 +26,7 @@ void				env_set_julia(t_env *e)
 	e->def_dimy = e->dimy;
 	e->params = to_param(1, 0, 1, 1);
 	e->renderer = &draw_mandel;
-	e->fract_code = 1;
+	e->fid = 1;
 }
 
 void				env_set_mandel(t_env *e)
@@ -37,7 +37,7 @@ void				env_set_mandel(t_env *e)
 	e->def_dimy = e->dimy;
 	e->params = to_param(0, 0, 1, 0);
 	e->renderer = &draw_mandel;
-	e->fract_code = 0;
+	e->fid = 0;
 }
 
 void				env_set_ship(t_env *e)
@@ -48,7 +48,7 @@ void				env_set_ship(t_env *e)
 	e->def_dimy = e->dimy;
 	e->params = to_param(0, 1, 1, 0);
 	e->renderer = &draw_mandel;
-	e->fract_code = 2;
+	e->fid = 2;
 }
 
 void				env_set_tree(t_env *e)
@@ -56,7 +56,7 @@ void				env_set_tree(t_env *e)
 	e->renderer = &draw_tree;
 	e->tree_min_len = 1.;
 	e->tree_step = .67;
-	e->fract_code = 3;
+	e->fid = 4;
 }
 
 void				env_set_newton(t_env *e)
@@ -68,19 +68,19 @@ void				env_set_newton(t_env *e)
 	e->dimy = (t_doub2){-2., 2.};
 	e->renderer = &draw_newton;
 	e->newton_mode = 1;
-	e->fract_code = 4;
+	e->fid = 3;
 }
 
 void				env_set_sponge(t_env *e)
 {
 	e->renderer = &draw_sponge;
-	e->fract_code = 5;
+	e->fid = 5;
 }
 
 void				env_set_triangle(t_env *e)
 {
 	e->renderer = &draw_triangle;
-	e->fract_code = 6;
+	e->fid = 6;
 }
 
 int					env_setup(t_env *e, const char *name)
@@ -106,6 +106,7 @@ int					env_setup(t_env *e, const char *name)
 		return (0 * err("Could not allocate pixel array.\n"));
 	e->col_getter[0] = &color_get_bones;
 	e->col_getter[1] = &color_get_blue;
+	e->col_getter[2] = &color_get_copper;
 	e->color_scale_id = 1;
 	return (1);
 }

@@ -55,8 +55,6 @@ int			draw_tree(t_env *env)
 {
 	t_int2	init;
 
-	printf("Mouse pos:[%d, %d]\n",
-			env->mouse.a, env->mouse.b);
 	img_clear(env);
 	init = (t_int2){WIN_X / 2, WIN_Y - 1};
 	get_points(env, &init, 90, DEF_TREE_LEN);

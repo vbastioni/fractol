@@ -12,6 +12,9 @@
 
 #include "fractol.h"
 
+void draw_child(t_env *e, int level, t_int2 *dims, double delta);
+void draw_cube(t_env *e, int level, t_int2 *dims, double r);
+
 static void	draw_line(t_env *e, t_int2 *from, t_int2 *to)
 {
 	t_int2	curr;
@@ -34,7 +37,30 @@ static void	draw_line(t_env *e, t_int2 *from, t_int2 *to)
 	}
 }
 
-static void	draw_cube(t_env *e, int level, t_dims *dims, double r)
+ void	draw_child(t_env *e, int level, t_int2 *dims, double delta)
+{
+	t_int2			dms;
+
+	level++;
+	dms = (t_int2){ dims->a - delta * 2, dims->b + delta * 2 };
+	draw_cube(e, level, &dms, delta);
+	dms = (t_int2){ dims->a, dims->b + delta * 2 };
+	draw_cube(e, level, &dms, delta);
+	dms = (t_int2){ dims->a + delta * 2, dims->b + delta * 2 };
+	draw_cube(e, level, &dms, delta);
+	dms = (t_int2){ dims->a + delta * 2, dims->b };
+	draw_cube(e, level, &dms, delta);
+	dms = (t_int2){ dims->a + delta * 2, dims->b - delta * 2 };
+	draw_cube(e, level, &dms, delta);
+	dms = (t_int2){ dims->a, dims->b - delta * 2 };
+	draw_cube(e, level, &dms, delta);
+	dms = (t_int2){ dims->a - delta * 2, dims->b - delta * 2 };
+	draw_cube(e, level, &dms, delta);
+	dms = (t_int2){ dims->a - delta * 2, dims->b };
+	draw_cube(e, level, &dms, delta);
+}
+
+ void	draw_cube(t_env *e, int level, t_int2 *dims, double r)
 {
 	t_int2		pos[4];
 	double		delta;
@@ -50,14 +76,7 @@ static void	draw_cube(t_env *e, int level, t_dims *dims, double r)
 	draw_line(e, pos + 1, pos + 2);
 	draw_line(e, pos + 2, pos + 3);
 	draw_line(e, pos + 3, pos);
-	draw_cube(e, ++level, dims->a - delta * 2, dims->b + delta * 2, r / 3);
-	draw_cube(e, level, dims->a, dims->b + delta * 2, delta);
-	draw_cube(e, level, dims->a + delta * 2, dims->b + delta * 2, delta);
-	draw_cube(e, level, dims->a + delta * 2, dims->b, delta);
-	draw_cube(e, level, dims->a + delta * 2, dims->b - delta * 2, delta);
-	draw_cube(e, level, dims->a, dims->b - delta * 2, delta);
-	draw_cube(e, level, dims->a - delta * 2, dims->b - delta * 2, delta);
-	draw_cube(e, level, dims->a - delta * 2, dims->b, delta);
+	draw_child(e, level, dims, delta);
 }
 
 int			draw_sponge(t_env *e)

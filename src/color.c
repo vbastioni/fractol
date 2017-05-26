@@ -12,6 +12,18 @@
 
 #include "fractol.h"
 
+int					color_get_copper(double val)
+{
+	const double	a = .809524;
+	t_color			col;
+
+	col.co = 0x0;
+	col.c[0] = .4975 * val * 255 * 100;
+	col.c[1] = .7812 * val * 255 * 100;
+	col.c[2] = ((val < a) ? val / a : 1) * 255;
+	return (col.co);
+}
+
 int					color_get_bones(double val)
 {
 	const double	a = .365079;
@@ -32,7 +44,11 @@ int					color_get_bones(double val)
 		col.c[0] = (.777778 - .444444) * ((val - a) / (b - a)) * 255 * 100;
 	}
 	else
-		col.co = 0xFFFFFF;
+	{
+		col.c[2] = (1. - .652778) * ((val - b) / (1. - b)) * 255 * 100;
+		col.c[1] = (1. - .777778) * ((val - b) / (1. - b)) * 255 * 100;
+		col.c[0] = (1. - .777778) * ((val - b) / (1. - b)) * 255 * 100;
+	}
 	return (col.co);
 }
 
