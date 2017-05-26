@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 17:45:22 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/26 14:38:15 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define WIN_NAME ("Fractol")
 # define PTH_CNT (8)
 
-# define COL_GRAD_CNT (3)
+# define COL_GRAD_CNT (4)
 
 # define DEF_TREE_LEN (200)
 
@@ -66,6 +66,8 @@
 # define KC_S 1
 # define KC_A 0
 # define KC_D 2
+# define KC_Q 12
+# define KC_E 14
 
 # define KC_R 15
 
@@ -150,6 +152,7 @@ struct					s_env
 	int					sponge_depth;
 	int					(*col_getter[COL_GRAD_CNT])();
 	int					color_scale_id;
+	int					tree_len;
 	int					fid;
 	t_cmp				r[3];
 };
@@ -164,6 +167,10 @@ int						draw_newton(t_env *env, t_int2 *pos);
 int						draw_sponge(t_env *env);
 int						draw_triangle(t_env *env);
 
+void					draw_child(t_env *e, int level, t_int2 *dims,
+									double delta);
+void					draw_cube(t_env *e, int level, t_int2 *dims, double r);
+
 /*
 **	UTILITY
 */
@@ -171,6 +178,8 @@ int						draw_triangle(t_env *env);
 int						usage(const char *name, const t_env *env);
 int						valid_args(const int ac, char **av, const t_env *env);
 int						err(const char *msg);
+int						clamp(int val, int min, int max);
+void					bckgd(t_env *env);
 
 /*
 **	COLOR HANDLING
@@ -179,6 +188,7 @@ int						err(const char *msg);
 int						color_get_copper(double val);
 int						color_get_bones(double val);
 int						color_get_blue(double val);
+int						color_get_gum(double val);
 
 int						color_scale_get(double progress, const t_env *env);
 int						color_smoothen(t_cmp *c, long index, t_env *env);

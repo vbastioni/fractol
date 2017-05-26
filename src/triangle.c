@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 17:09:58 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 17:37:34 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/26 13:34:18 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int				draw_triangle(t_env *e)
 
 	init = (t_int2){WIN_X - 1, WIN_Y - 1};
 	img_clear(e);
+	bckgd(e);
 	draw_tri(e, &init, WIN_X - 100, 7);
 	img_to_win(e);
 	return (0);

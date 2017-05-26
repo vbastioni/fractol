@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 10:44:08 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 17:39:22 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/26 14:22:15 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void				env_set_tree(t_env *e)
 	e->renderer = &draw_tree;
 	e->tree_min_len = 1.;
 	e->tree_step = .67;
+	e->tree_len = 50;
 	e->fid = 4;
 }
 
@@ -67,13 +68,14 @@ void				env_set_newton(t_env *e)
 	e->dimx = (t_doub2){-2., 2.};
 	e->dimy = (t_doub2){-2., 2.};
 	e->renderer = &draw_newton;
-	e->newton_mode = 1;
+	e->newton_mode = 0;
 	e->fid = 3;
 }
 
 void				env_set_sponge(t_env *e)
 {
 	e->renderer = &draw_sponge;
+	e->sponge_depth = 4;
 	e->fid = 5;
 }
 
@@ -107,7 +109,8 @@ int					env_setup(t_env *e, const char *name)
 	e->col_getter[0] = &color_get_bones;
 	e->col_getter[1] = &color_get_blue;
 	e->col_getter[2] = &color_get_copper;
-	e->color_scale_id = 1;
+	e->col_getter[3] = &color_get_gum;
+	e->color_scale_id = 0;
 	return (1);
 }
 

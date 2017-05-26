@@ -6,17 +6,17 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 11:09:37 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 17:32:26 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/26 14:39:09 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static inline t_cmp	map(t_cmp *cmp, t_int2 *dims, t_env *env)
+static inline t_cmp	map(t_cmp *cmp, t_int2 *dims, t_env *e)
 {
-	cmp->re = (env->dimx.a + (env->dimx.b - env->dimx.a)
+	cmp->re = (e->dimx.a + (e->dimx.b - e->dimx.a)
 			* (double)(dims->a) / WIN_X);
-	cmp->im = (env->dimy.a + (env->dimy.b - env->dimy.a)
+	cmp->im = (e->dimy.a + (e->dimy.b - e->dimy.a)
 			* (double)(dims->b) / WIN_Y);
 	return (*cmp);
 }
@@ -48,57 +48,51 @@ static inline void	cmp_cvt(t_cmp *curr)
 	}
 }
 
-static inline int	get_color(const t_cmp *curr, const t_env *env,
+static inline int	get_color(const t_cmp *curr, const t_env *e,
 		const double *max_mod, const int cnt)
 {
 	t_color			col;
 	int				m;
 	int				n;
+	t_uchar			flag;
 
-	m = env->newton_mode;
-	n = ((env->newton_mode & 1) == 1) ? *max_mod : cnt;
-	col.co = ((m < 2) ? color_scale_get(n / (double)N_MAX_CNT, env) : 0);
+	flag = ((cmp_abs2(curr, e->r) < N_TOL)
+			| ((cmp_abs2(curr, e->r + 1) <= N_TOL) << 1)
+			| ((cmp_abs2(curr, e->r + 2) <= N_TOL) << 2));
+	m = e->newton_mode;
+	n = ((e->newton_mode & 1) == 1) ? *max_mod : cnt;
+	col.co = ((m < 2) ? color_scale_get(n / (double)N_MAX_CNT, e) : n);
 	if (m < 4)
 	{
-		if (cmp_abs2(curr, env->r) < N_TOL)
+		if (flag & 1)
 			col.c[2] = ((m < 2) ? col.c[2] : n) * N_MULT_COL;
-		if (cmp_abs2(curr, (env->r + 1)) <= N_TOL)
+		if (flag & 2)
 			col.c[1] = ((m < 2) ? col.c[1] : n) * N_MULT_COL;
-		if (cmp_abs2(curr, (env->r + 2)) <= N_TOL)
+		if (flag & 4)
 			col.c[0] = ((m < 2) ? col.c[0] : n) * N_MULT_COL;
 	}
-	else
-	{
-		m -= 2;
-		if (cmp_abs2(curr, env->r) < N_TOL
-			|| cmp_abs2(curr, env->r + 1) <= N_TOL
-			|| (cmp_abs2(curr, env->r + 2) <= N_TOL))
-		{
-			col.c[2] = 255 - ((m < 2) ? col.c[2] : n) * N_MULT_COL;
-			col.c[1] = ((m < 2) ? col.c[1] : n) * N_MULT_COL;
-			col.c[0] = 255 - ((m < 2) ? col.c[0] : n) * N_MULT_COL;
-		}
-	}
+	else if (flag != 0)
+		col.co = color_scale_get(n / (double)N_MAX_CNT * N_MULT_COL, e);
 	return (col.co);
 }
 
-int					draw_newton(t_env *env, t_int2 *pos)
+int					draw_newton(t_env *e, t_int2 *pos)
 {
 	t_cmp			curr;
 	int				cnt;
 	double			max_mod;
 
-	map(&curr, pos, env);
+	map(&curr, pos, e);
 	cnt = 0;
 	max_mod = 0.;
-	while ((cnt < N_MAX_CNT) && cmp_abs2(&curr, env->r) > N_TOL
-			&& cmp_abs2(&curr, (env->r + 1)) > N_TOL
-			&& cmp_abs2(&curr, (env->r + 2)) > N_TOL)
+	while ((cnt < N_MAX_CNT) && cmp_abs2(&curr, e->r) > N_TOL
+			&& cmp_abs2(&curr, (e->r + 1)) > N_TOL
+			&& cmp_abs2(&curr, (e->r + 2)) > N_TOL)
 	{
 		cmp_cvt(&curr);
-		if (env->newton_mode && cmp_abs(&curr) > max_mod)
+		if (e->newton_mode && cmp_abs(&curr) > max_mod)
 			max_mod = cmp_abs(&curr);
 		cnt++;
 	}
-	return (get_color(&curr, env, &max_mod, cnt));
+	return (get_color(&curr, e, &max_mod, cnt));
 }

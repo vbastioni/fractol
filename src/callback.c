@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 12:31:30 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 17:44:54 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/26 14:17:43 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,37 @@ int				swap_color(t_env *e)
 	return (0);
 }
 
+int				tree_change_len(t_env *e, int fwd)
+{
+	int			prev;
+
+	prev = e->tree_len;
+	e->tree_len = clamp(e->tree_len + 10 * (fwd ? 1 : -1), 0, 350);
+	if (e->tree_len != prev)
+		e->renderer(e);
+	return (0);
+}
+
+int				sponge_change_depth(t_env *e, int fwd)
+{
+	int			prev;
+
+	prev = e->sponge_depth;
+	e->sponge_depth = clamp(e->sponge_depth + (fwd ? 1 : -1), 0, 8);
+	if (e->sponge_depth != prev)
+		e->renderer(e);
+	return (0);
+}
+
+int				cb_qe(int fwd, t_env *e)
+{
+	if (e->fid == 4)
+		tree_change_len(e, fwd);
+	if (e->fid == 5)
+		sponge_change_depth(e, fwd);
+	return (0);
+}
+
 int				handle_key(int kc, void *param)
 {
 	t_env		*e;
@@ -74,6 +105,8 @@ int				handle_key(int kc, void *param)
 		reset(e);
 	if (kc == KC_TAB)
 		swap_color(e);
+	if (kc == KC_Q || kc == KC_E)
+		cb_qe(kc == KC_E, e);
 	return (0);
 }
 
@@ -82,8 +115,9 @@ int				handle_mouse(int x, int y, void *param)
 	t_env *e;
 
 	e = (t_env *)param;
-	if (e->fid != 1 || (e->params & 8) == 0 || x < 0 || y < 0
-		|| x > WIN_X || y > WIN_Y)
+	if (x < 0 || y < 0 || x > WIN_X || y > WIN_Y)
+		return (0);
+	if ((e->fid == 1 && (e->params & 8) == 0) || !(e->fid == 1 || e->fid == 4))
 		return (0);
 	e->mouse = (t_int2){x, y};
 	(e->fid > 3) ? e->renderer(e) : rdr_cmd(e);
