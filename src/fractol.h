@@ -30,10 +30,11 @@
 # define TRIANGLE ("triangle")
 # define SPONGE ("sponge")
 
-# define WIN_X (800)
-# define WIN_Y (800)
+# define WIN_X (640)
+# define WIN_Y (640)
 # define WIN_NAME ("Fractol")
 # define PTH_CNT (8)
+# define ZOOM (1.1)
 
 # define COL_GRAD_CNT (4)
 
@@ -54,7 +55,7 @@
 # define TO_RAD (0.01745329251994329577)
 
 # define MAX_MOD (4.)
-# define MAX_ITER (1024)
+# define MAX_ITER (256)
 # define LOW_ITER (128)
 
 # define KC_EXIT (53)
@@ -68,6 +69,8 @@
 # define KC_D 2
 # define KC_Q 12
 # define KC_E 14
+# define KC_O 31
+# define KC_P 35
 
 # define KC_R 15
 
@@ -136,6 +139,8 @@ struct					s_env
 	t_cmp				mapped_mouse;
 	t_doub2				def_dimx;
 	t_doub2				def_dimy;
+	t_doub2				delta;
+	double				zoom;
 	t_doub2				dimx;
 	t_doub2				dimy;
 	void				*mlx;
@@ -146,6 +151,7 @@ struct					s_env
 	pthread_t			wth[PTH_CNT];
 	t_pth				cth[PTH_CNT];
 	t_uchar				params;
+	int					z_iter;
 	int					newton_mode;
 	float				tree_step;
 	float				tree_min_len;
@@ -161,11 +167,11 @@ struct					s_env
 **	DRAWERS
 */
 
-int						draw_mandel(t_env *env, t_int2 *pos);
-int						draw_tree(t_env *env);
-int						draw_newton(t_env *env, t_int2 *pos);
-int						draw_sponge(t_env *env);
-int						draw_triangle(t_env *env);
+int						draw_mandel(t_env *e, t_int2 *pos);
+int						draw_tree(t_env *e);
+int						draw_newton(t_env *e, t_int2 *pos);
+int						draw_sponge(t_env *e);
+int						draw_triangle(t_env *e);
 
 void					draw_child(t_env *e, int level, t_int2 *dims,
 									double delta);
@@ -175,11 +181,13 @@ void					draw_cube(t_env *e, int level, t_int2 *dims, double r);
 **	UTILITY
 */
 
-int						usage(const char *name, const t_env *env);
-int						valid_args(const int ac, char **av, const t_env *env);
+int						usage(const char *name, const t_env *e);
+int						valid_args(const int ac, char **av, const t_env *e);
 int						err(const char *msg);
+
+void					zoom(int x, int y, t_env *e, double z);
 int						clamp(int val, int min, int max);
-void					bckgd(t_env *env);
+void					bckgd(t_env *e);
 
 /*
 **	COLOR HANDLING
@@ -190,17 +198,17 @@ int						color_get_bones(double val);
 int						color_get_blue(double val);
 int						color_get_gum(double val);
 
-int						color_scale_get(double progress, const t_env *env);
-int						color_smoothen(t_cmp *c, long index, t_env *env);
+int						color_scale_get(double progress, const t_env *e);
+int						color_smoothen(t_cmp *c, long index, t_env *e);
 
 /*
 **	IMG WORK
 */
 
-int						img_create(t_env *env);
-int						img_clear(t_env *env);
-int						*img_get_addr(t_env *env, t_int2 *pos);
-int						img_to_win(t_env *env);
+int						img_create(t_env *e);
+int						img_clear(t_env *e);
+int						*img_get_addr(t_env *e, t_int2 *pos);
+int						img_to_win(t_env *e);
 
 /*
 **	CALLBACKS
@@ -217,7 +225,7 @@ int						reset(t_env *e);
 int						change_mode(t_env *e);
 int						swap_color(t_env *e);
 
-void					rdr_cmd(t_env *env);
+void					rdr_cmd(t_env *e);
 
 /*
 **	PREPARATION

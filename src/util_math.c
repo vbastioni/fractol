@@ -20,3 +20,23 @@ int					clamp(int val, int min, int max)
 		val = min;
 	return (val);
 }
+
+#include <stdio.h>
+
+void				zoom(int x, int y, t_env *e, double z)
+{
+	double ox;
+	double oy;
+	double nx;
+	double ny;
+
+	ox = (e->dimx.b - e->dimx.a) * e->zoom;
+	oy = (e->dimy.b - e->dimy.a) * e->zoom;
+	nx = (e->dimx.b - e->dimx.a) * e->zoom * z;
+	ny = (e->dimy.b - e->dimy.a) * e->zoom * z;
+	e->z_iter = clamp(e->z_iter + ((z > 1) ? -4 : 4), 4, 2048);
+	e->zoom *= z;
+	e->delta.a -= ((double)x / WIN_X) * (nx - ox);
+	e->delta.b -= ((double)y / WIN_Y) * (ny - oy);
+	rdr_cmd(e);
+}

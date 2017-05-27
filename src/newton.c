@@ -14,10 +14,17 @@
 
 static inline t_cmp	map(t_cmp *cmp, t_int2 *dims, t_env *e)
 {
+	((e->zoom > 200) ? (e->zoom = 200) : 0);
+	cmp->re = ((e->dimx.b - e->dimx.a) * ((double)dims->a / WIN_X)
+				* e->zoom + e->delta.a + e->dimx.a);
+	cmp->im = ((e->dimy.b - e->dimy.a) * ((double)dims->b / WIN_Y)
+				* e->zoom + e->delta.b + e->dimy.a);
+/*
 	cmp->re = (e->dimx.a + (e->dimx.b - e->dimx.a)
 			* (double)(dims->a) / WIN_X);
 	cmp->im = (e->dimy.a + (e->dimy.b - e->dimy.a)
 			* (double)(dims->b) / WIN_Y);
+*/
 	return (*cmp);
 }
 
@@ -81,11 +88,13 @@ int					draw_newton(t_env *e, t_int2 *pos)
 	t_cmp			curr;
 	int				cnt;
 	double			max_mod;
+	int				max;
 
+	max = clamp(N_MAX_CNT + e->z_iter, 4, 256);
 	map(&curr, pos, e);
 	cnt = 0;
 	max_mod = 0.;
-	while ((cnt < N_MAX_CNT) && cmp_abs2(&curr, e->r) > N_TOL
+	while ((cnt < max) && cmp_abs2(&curr, e->r) > N_TOL
 			&& cmp_abs2(&curr, (e->r + 1)) > N_TOL
 			&& cmp_abs2(&curr, (e->r + 2)) > N_TOL)
 	{

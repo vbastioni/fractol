@@ -12,7 +12,7 @@
 
 #include "fractol.h"
 
-int					env_setup(t_env *e, const char *name)
+static void			env_setup_fract(t_env *e, const char *name)
 {
 	if (ft_strcmp(name, MANDEL) == 0)
 		env_set_mandel(e, 0);
@@ -28,16 +28,29 @@ int					env_setup(t_env *e, const char *name)
 		env_set_triangle(e);
 	else if (ft_strcmp(name, SPONGE) == 0)
 		env_set_sponge(e);
-	if (!(img_create(e)))
-		return (0 * err("Error with mlx image.\n"));
-	e->mouse = (t_int2){0, 0};
-	if (!(e->pixels = (int *)malloc(sizeof(int) * (WIN_X * WIN_Y))))
-		return (0 * err("Could not allocate pixel array.\n"));
+}
+
+static void			env_setup_color(t_env *e)
+{
 	e->col_getter[0] = &color_get_bones;
 	e->col_getter[1] = &color_get_blue;
 	e->col_getter[2] = &color_get_copper;
 	e->col_getter[3] = &color_get_gum;
 	e->color_scale_id = 0;
+}
+
+static int			env_setup(t_env *e, const char *name)
+{
+	env_setup_fract(e, name);
+	if (!(img_create(e)))
+		return (0 * err("Error with mlx image.\n"));
+	e->mouse = (t_int2){0, 0};
+	if (!(e->pixels = (int *)malloc(sizeof(int) * (WIN_X * WIN_Y))))
+		return (0 * err("Could not allocate pixel array.\n"));
+	env_setup_color(e);
+	e->zoom = 1.;
+	e->z_iter = 0;
+	e->delta = (t_doub2){ 0., 0. };
 	return (1);
 }
 

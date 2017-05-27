@@ -19,12 +19,12 @@
 **		4:	break early (optimisation)
 */
 
-static inline t_cmp	map(t_cmp *cmp, t_int2 *dims, t_env *env)
+static inline t_cmp	map(t_cmp *cmp, t_int2 *dims, t_env *e)
 {
-	cmp->re = (env->dimx.a + (env->dimx.b - env->dimx.a)
-				* (double)(dims->a) / WIN_X);
-	cmp->im = (env->dimy.a + (env->dimy.b - env->dimy.a)
-				* (double)(dims->b) / WIN_Y);
+	cmp->re = ((e->dimx.b - e->dimx.a) * ((double)dims->a / WIN_X)
+				* e->zoom + e->delta.a + e->dimx.a);
+	cmp->im	= ((e->dimy.b - e->dimy.a) * ((double)dims->b / WIN_X)
+				* e->zoom + e->delta.b + e->dimy.a);
 	return (*cmp);
 }
 
@@ -47,26 +47,26 @@ static void			do_iter(t_uchar flags, t_doub2 *tmp, t_cmp *c, int *iter)
 	(*iter)++;
 }
 
-int					draw_mandel(t_env *env, t_int2 *dims)
+int					draw_mandel(t_env *e, t_int2 *dims)
 {
 	t_cmp			c[2];
 	t_doub2			tmp;
 	int				iter;
 
 	iter = 0;
-	map(c, dims, env);
-	c[1] = (env->params & 8) ? map(&env->mapped_mouse, &env->mouse, env) : c[0];
-	while (iter < ((env->params & 1) ? LOW_ITER : MAX_ITER)
+	map(c, dims, e);
+	c[1] = (e->params & 8) ? map(&e->mapped_mouse, &e->mouse, e) : c[0];
+	while (iter < (((e->params & 1) ? LOW_ITER : MAX_ITER) + e->z_iter)
 			&& (c->re * c->re + c->im * c->im) < MAX_MOD)
-		do_iter(env->params, &tmp, c, &iter);
-	if (iter == ((env->params & 1) ? LOW_ITER : MAX_ITER))
+		do_iter(e->params, &tmp, c, &iter);
+	if (iter == ((e->params & 1) ? LOW_ITER : MAX_ITER))
 		return (0x0);
 	else
 	{
-		do_iter((env->params & 0xB), &tmp, c, &iter);
-		if ((env->params & 2))
-			do_iter((env->params & 0xB), &tmp, c, &iter);
-		return (color_smoothen(c, iter, env));
+		do_iter((e->params & 0xB), &tmp, c, &iter);
+		if ((e->params & 2))
+			do_iter((e->params & 0xB), &tmp, c, &iter);
+		return (color_smoothen(c, iter, e));
 	}
 	return (0);
 }

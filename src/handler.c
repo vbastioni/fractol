@@ -48,6 +48,8 @@ int				handle_key(int kc, void *param)
 		swap_color(e);
 	if (kc == KC_Q || kc == KC_E)
 		cb_qe(kc == KC_E, e);
+	if (kc == KC_O || kc == KC_P)
+		zoom(e->mouse.a, e->mouse.b, e, kc == KC_O ? ZOOM : (1 / ZOOM));
 	return (0);
 }
 
@@ -68,24 +70,10 @@ int				handle_mouse(int x, int y, void *param)
 int				handle_mouse_btn(int btn, int x, int y, void *param)
 {
 	t_env		*e;
-	t_doub2		d;
 
-	return (0);
 	if (btn > 5)
 		return (0);
 	e = (t_env *)param;
-	d.a = ((double)x / WIN_X) * (e->dimx.b - e->dimx.a);
-	e->dimx.a += d.a * (btn == 4 ? -1 : 1);
-	e->dimx.b += d.a * (btn == 4 ? -1 : 1);
-	d.b = ((double)y / WIN_Y) * (e->dimy.b - e->dimy.a);
-	e->dimy.a += d.b * (btn == 4 ? -1 : 1);
-	e->dimy.b += d.b * (btn == 4 ? -1 : 1);
-	e->renderer(e);
-	if (btn == 4)
-	{
-	}
-	else if (btn == 5)
-	{
-	}
+	zoom(x, y, e, btn == 4 ? ZOOM : (1 / ZOOM));
 	return (0);
 }

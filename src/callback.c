@@ -16,6 +16,9 @@ int				reset(t_env *e)
 {
 	e->dimx = e->def_dimx;
 	e->dimy = e->def_dimy;
+	e->zoom = 1.;
+	e->z_iter = 0;
+	e->delta = (t_doub2){ 0., 0. };
 	(e->fid > 3) ? e->renderer(e) : rdr_cmd(e);
 	return (0);
 }

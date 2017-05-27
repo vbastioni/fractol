@@ -52,6 +52,8 @@ void				env_set_newton(t_env *e)
 	e->r[2] = (t_cmp){-.5, -.86602540378};
 	e->dimx = (t_doub2){-2., 2.};
 	e->dimy = (t_doub2){-2., 2.};
+	e->def_dimx = e->dimx;
+	e->def_dimy = e->dimy;
 	e->renderer = &draw_newton;
 	e->newton_mode = 0;
 	e->fid = 3;
