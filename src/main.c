@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 10:44:08 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/26 16:20:56 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/27 15:38:51 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,21 @@ static int			env_setup(t_env *e, const char *name)
 	return (1);
 }
 
+static void			env_defaults(t_env *e)
+{
+	e->zoom = 0;
+	e->z_iter = 0;
+	e->dimx = (t_doub2){ 0., 0. };
+	e->dimy = (t_doub2){ 0., 0. };
+	e->def_dimx = e->dimx;
+	e->def_dimy = e->dimy;
+}
+
 int					main(int ac, char **av)
 {
 	t_env			e;
 
+	env_defaults(&e);
 	e.fnames = (char *[8]){MANDEL, JULIA, SHIP, TREE, NEWTON, TRIANGLE,
 		SPONGE, 0};
 	if (ac == 1 || (!valid_args(ac, av, &e)))

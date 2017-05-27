@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 17:10:14 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/26 14:49:05 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/27 15:48:39 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ void				draw_child(t_env *e, int level, t_int2 *dims, double delta)
 void				draw_cube(t_env *e, int level, t_int2 *dims, double r)
 {
 	t_int2			pos[4];
-	double			delta;
+	int				delta;
 
 	if (level >= e->sponge_depth)
 		return ;
-	delta = r / 3;
+	delta = (int)(r / 3 + .5);
 	pos[0] = (t_int2){ dims->a - delta - 1, dims->b - delta - 1 };
 	pos[1] = (t_int2){ dims->a + delta - 1, dims->b - delta - 1 };
 	pos[2] = (t_int2){ dims->a + delta - 1, dims->b + delta - 1 };
@@ -84,7 +84,7 @@ int					draw_sponge(t_env *e)
 	dims = (t_int2){WIN_X / 2, WIN_Y / 2};
 	img_clear(e);
 	bckgd(e);
-	draw_cube(e, 0, &dims, 600.);
+	draw_cube(e, 0, &dims, 600. * e->zoom);
 	img_to_win(e);
 	return (0);
 }

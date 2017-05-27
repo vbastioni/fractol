@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 15:56:36 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/26 15:58:10 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/27 15:41:30 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ int				handle_key(int kc, void *param)
 		swap_color(e);
 	if (kc == KC_Q || kc == KC_E)
 		cb_qe(kc == KC_E, e);
-	if (kc == KC_O || kc == KC_P)
-		zoom(e->mouse.a, e->mouse.b, e, kc == KC_O ? ZOOM : (1 / ZOOM));
 	return (0);
 }
 

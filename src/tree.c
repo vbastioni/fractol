@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 17:36:06 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/26 14:35:26 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/27 16:05:10 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ int					draw_tree(t_env *e)
 
 	img_clear(e);
 	bckgd(e);
-	init = (t_int2){WIN_X / 2, WIN_Y - 1};
-	get_points(e, &init, 90, e->tree_len);
+	init = (t_int2){ WIN_X / 2 + e->delta.a,
+						WIN_Y + e->delta.b };
+	get_points(e, &init, 90, e->tree_len * e->zoom);
 	img_to_win(e);
 	return (1);
 }
