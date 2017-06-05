@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 15:56:36 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/27 15:41:30 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/05 16:09:56 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ static int		move(int kc, t_env *e)
 	delta.a = (e->dimx.b - e->dimx.a) * .1;
 	delta.b = (e->dimy.b - e->dimy.a) * .1;
 	if (kc == KC_D || kc == KC_RIGHT)
-		e->dimx = (t_doub2){ e->dimx.a + delta.a, e->dimx.b + delta.b };
+		e->delta.a += .1 * e->zoom;
 	else if (kc == KC_A || kc == KC_LEFT)
-		e->dimx = (t_doub2){ e->dimx.a - delta.a, e->dimx.b - delta.b };
+		e->delta.a -= .1 * e->zoom;
 	else if (kc == KC_S || kc == KC_DOWN)
-		e->dimy = (t_doub2){ e->dimy.a + delta.a, e->dimy.b + delta.b };
+		e->delta.b += .1 * e->zoom;
 	else if (kc == KC_W || kc == KC_UP)
-		e->dimy = (t_doub2){ e->dimy.a - delta.a, e->dimy.b - delta.b };
+		e->delta.b -= .1 * e->zoom;
 	(e->fid > 3) ? e->renderer(e) : rdr_cmd(e);
 	return (1);
 }
@@ -69,9 +69,9 @@ int				handle_mouse_btn(int btn, int x, int y, void *param)
 {
 	t_env		*e;
 
-	if (btn > 5)
+	if (btn < 4 && btn > 7)
 		return (0);
 	e = (t_env *)param;
-	zoom(x, y, e, btn == 4 ? ZOOM : (1 / ZOOM));
+	zoom(x, y, e, (btn == 6 || btn == 4) ? ZOOM : (1 / ZOOM));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 12:02:35 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/05 11:58:14 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/05 14:04:45 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void			do_iter(t_uchar flags, t_doub2 *tmp, t_cmp *c, int *iter)
 	tmp->b = c->im * c->im;
 	if ((flags & 4) && c->re == (tmp->a - tmp->b + (c + 1)->re)
 		&& c->im == (2 * tmp->a * tmp->b + (c + 1)->im))
-		*iter = ((flags & 1) ? LOW_ITER : MAX_ITER) - 1;
+		*iter = ITER - 1;
 	else
 	{
 		twoab = 2 * ((flags & 2) ? fabs(c->re) * fabs(c->im) :
@@ -56,10 +56,10 @@ int					draw_mandel(t_env *e, t_int2 *dims)
 	iter = 0;
 	map(c, dims, e);
 	c[1] = (e->params & 8) ? map(&e->mapped_mouse, &e->mouse, e) : c[0];
-	while (iter < (((e->params & 1) ? LOW_ITER : MAX_ITER) + e->z_iter)
+	while (iter < (ITER + e->z_iter)
 			&& (c->re * c->re + c->im * c->im) < MAX_MOD)
 		do_iter(e->params, &tmp, c, &iter);
-	if (iter == ((e->params & 1) ? LOW_ITER : MAX_ITER))
+	if (iter == (ITER + e->z_iter))
 		return (0x0);
 	else
 	{
@@ -70,3 +70,6 @@ int					draw_mandel(t_env *e, t_int2 *dims)
 	}
 	return (0);
 }
+
+
+

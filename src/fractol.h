@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/31 11:29:09 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/05 16:30:41 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 # define TRIANGLE ("triangle")
 # define SPONGE ("sponge")
 
-# define WIN_X (640)
-# define WIN_Y (640)
+# define WIN_X (480)
+# define WIN_Y (480)
 # define WIN_NAME ("Fractol")
 # define PTH_CNT (8)
 # define ZOOM (1.1)
@@ -55,8 +55,7 @@
 # define TO_RAD (0.01745329251994329577)
 
 # define MAX_MOD (4.)
-# define MAX_ITER (256)
-# define LOW_ITER (128)
+# define ITER (64)
 
 # define KC_EXIT (53)
 

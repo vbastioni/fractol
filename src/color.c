@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 10:22:59 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/26 16:23:23 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/05 13:59:07 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ int					color_smoothen(t_cmp *c, long index, t_env *env)
 	i = index + 1 - nu;
 	if (i < 0)
 		i = 0;
-	return (color_scale_get(i / MAX_ITER, env));
+	return (color_scale_get(i / ITER, env));
 }

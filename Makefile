@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall -Wextra -Werror
 NAME=fractol
-FT=./libft
+FT:=./libft
 MLX=./minilibx_macos
 LIBS=-I ./includes -I ${FT}
 CLIBS=-L${FT} -lft -framework OpenGL -framework AppKit
@@ -10,7 +10,7 @@ CLIBS+=-L ${MLX}
 CLIBS+=-lmlx
 MDIR=mkdir -p obj
 
-.SILENT:
+#.SILENT:
 
 ITEM:=\
 	callback.o\
@@ -32,14 +32,21 @@ ITEM:=\
 	util_math.o
 OBJ:=$(addprefix obj/, $(ITEM))
 
+
 $(NAME): $(OBJ)
-	make -C $(MLX)
-	make -C $(FT)
-	$(CC) $(OBJ) $(CFLAGS) -o $@ ${CLIBS}
+	make -C ${FT}
+	make -C ${MLX}
+	$(CC) $(OBJ) $(CFLAGS)-O3 -o $@ ${CLIBS}
 	echo "Compiled fractol."
 
+$(FT):
+	make -C $?
+
+$(MLX):
+	make -C $?
+
 obj/%.o: src/%.c
-	$(CC) $(CFLAGS) -c $? ${LIBS} -o $@
+	$(CC) $(CFLAGS) -O3 -c $? ${LIBS} -o $@ 
 
 all: ${NAME}
 
