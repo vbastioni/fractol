@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 15:54:26 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/27 15:37:07 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/05 11:59:23 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int					clamp(int val, int min, int max)
 		val = min;
 	return (val);
 }
-
-#include <stdio.h>
 
 void				zoom(int x, int y, t_env *e, double z)
 {

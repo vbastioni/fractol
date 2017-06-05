@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 16:17:44 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/26 16:20:54 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/31 11:27:57 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ void				env_set_sponge(t_env *e)
 void				env_set_triangle(t_env *e)
 {
 	e->renderer = &draw_triangle;
+	e->tri_depth = 4;
 	e->fid = 6;
 }

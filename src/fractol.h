@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/26 16:20:59 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/05/31 11:29:09 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ struct					s_env
 	float				tree_step;
 	float				tree_min_len;
 	int					sponge_depth;
+	int					tri_depth;
 	int					(*col_getter[COL_GRAD_CNT])();
 	int					color_scale_id;
 	int					tree_len;

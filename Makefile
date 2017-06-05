@@ -8,6 +8,9 @@ CLIBS=-L${FT} -lft -framework OpenGL -framework AppKit
 LIBS+=-I ${MLX}
 CLIBS+=-L ${MLX}
 CLIBS+=-lmlx
+MDIR=mkdir -p obj
+
+.SILENT:
 
 ITEM:=\
 	callback.o\
@@ -27,28 +30,28 @@ ITEM:=\
 	triangle.o\
 	utils.o\
 	util_math.o
-OBJ:=$(addprefix ./src/, $(ITEM))
+OBJ:=$(addprefix obj/, $(ITEM))
 
 $(NAME): $(OBJ)
-	@make -C $(MLX)
-	@make -C $(FT)
-	@$(CC) $(OBJ) $(CFLAGS) -o $@ ${CLIBS}
-	@echo "Compiled fractol."
+	make -C $(MLX)
+	make -C $(FT)
+	$(CC) $(OBJ) $(CFLAGS) -o $@ ${CLIBS}
+	echo "Compiled fractol."
 
-%.o: %.c
-	@$(CC) $(CFLAGS) -c $? ${LIBS} -o $@
+obj/%.o: src/%.c
+	$(CC) $(CFLAGS) -c $? ${LIBS} -o $@
 
 all: ${NAME}
 
 clean:
-	@rm -rf ${OBJ}
-	@make -C ${FT} clean
-	@make -C ${MLX} clean
-	@echo "Cleaned Fractol"
+	rm -rf ${OBJ}
+	make -C ${FT} clean
+	make -C ${MLX} clean
+	echo "Cleaned Fractol"
 
 fclean: clean
-	@rm -f ${NAME}
-	@make -C ${FT} fclean
-	@echo "FCleaned Fractol"
+	rm -f ${NAME}
+	make -C ${FT} fclean
+	echo "FCleaned Fractol"
 
 re: fclean all

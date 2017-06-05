@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 11:09:37 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/26 14:39:09 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/05 11:58:51 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,6 @@ static inline t_cmp	map(t_cmp *cmp, t_int2 *dims, t_env *e)
 				* e->zoom + e->delta.a + e->dimx.a);
 	cmp->im = ((e->dimy.b - e->dimy.a) * ((double)dims->b / WIN_Y)
 				* e->zoom + e->delta.b + e->dimy.a);
-/*
-	cmp->re = (e->dimx.a + (e->dimx.b - e->dimx.a)
-			* (double)(dims->a) / WIN_X);
-	cmp->im = (e->dimy.a + (e->dimy.b - e->dimy.a)
-			* (double)(dims->b) / WIN_Y);
-*/
 	return (*cmp);
 }
 

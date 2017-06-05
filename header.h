@@ -1,1 +1,0 @@
-src/fractol.h
