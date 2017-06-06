@@ -34,16 +34,16 @@ OBJ:=$(addprefix obj/, $(ITEM))
 
 
 $(NAME): $(OBJ)
-	make -C ${FT}
-	make -C ${MLX}
+	@make -C ${FT}
+	@make -C ${MLX}
 	$(CC) $(CFLAGS) -O3 $(OBJ) -o $@ ${CLIBS}
-	echo "Compiled fractol."
+	@echo "Compiled fractol."
 
 $(FT):
-	make -C $?
+	@make -C $?
 
 $(MLX):
-	make -C $?
+	@make -C $?
 
 obj/%.o: src/%.c
 	$(CC) $(CFLAGS) -O3 -c $? ${LIBS} -o $@ 
@@ -52,13 +52,13 @@ all: ${NAME}
 
 clean:
 	rm -rf ${OBJ}
-	make -C ${FT} clean
-	make -C ${MLX} clean
-	echo "Cleaned Fractol"
+	@make -C ${FT} clean
+	@make -C ${MLX} clean
+	@echo "Cleaned Fractol"
 
 fclean: clean
 	rm -f ${NAME}
-	make -C ${FT} fclean
-	echo "FCleaned Fractol"
+	@make -C ${FT} fclean
+	@echo "FCleaned Fractol"
 
 re: fclean all

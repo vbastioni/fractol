@@ -6,7 +6,7 @@
 #    By: vbastion <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/04/12 19:31:49 by vbastion          #+#    #+#              #
-#    Updated: 2017/05/20 11:02:25 by vbastion         ###   ########.fr        #
+#    Updated: 2017/06/06 14:34:50 by vbastion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,21 +31,21 @@ SRC=ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c ft_memchr.c \
 OBJ=$(SRC:.c=.o)
 
 $(NAME): $(OBJ)
-	@ar rc $(NAME) $(OBJ)
-	@ranlib $(NAME)
+	ar rc $(NAME) $(OBJ)
+	ranlib $(NAME)
 	@echo "Built libft"
 
 %.o: %.c
-	@$(CC) -c $< $(CFLAGS) -o $@
+	$(CC) -c $< $(CFLAGS) -o $@
 
 all: $(NAME)
 
 clean:
-	@/bin/rm -f $(OBJ)
+	/bin/rm -f $(OBJ)
 	@echo "Cleaned libft"
 
 fclean: clean
-	@/bin/rm -f $(NAME)
+	/bin/rm -f $(NAME)
 	@echo "FCleaned libft"
 
 re: fclean $(NAME)
