@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 10:44:08 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 15:58:17 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 16:35:29 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void			env_setup_color(t_env *e)
 static int			env_setup(t_env *e, const char *name)
 {
 	env_setup_fract(e, name);
-	if (!(img_create(e)))
+	if ((img_create(e)) == 0)
 		return (0 * err("Error with mlx image.\n"));
 	e->mouse = (t_int2){0, 0};
 	env_setup_color(e);
@@ -55,6 +55,7 @@ static int			env_setup(t_env *e, const char *name)
 static void			env_defaults(t_env *e)
 {
 	e->img.img = NULL;
+	e->win = NULL;
 	e->zoom = 0;
 	e->z_iter = 0;
 	e->dimx = (t_doub2){ 0., 0. };
@@ -72,11 +73,11 @@ int					main(int ac, char **av)
 							SPONGE, 0};
 	if (ac == 1 || (!valid_args(ac, av, &e)))
 		return (usage(av[0], &e));
-	if (!(e.mlx = mlx_init()))
+	if ((e.mlx = mlx_init()) == NULL)
 		return (err("Could not init mlx.\n"));
-	if (!(e.win = mlx_new_window(e.mlx, WIN_X, WIN_Y, WIN_NAME)))
+	if ((e.win = mlx_new_window(e.mlx, WIN_X, WIN_Y, WIN_NAME)) == NULL)
 		return (err("Could not create mlx window.\n") | cb_exit(&e));
-	if (!(env_setup(&e, av[1])))
+	if ((env_setup(&e, av[1])) == 0)
 		return (err("Could not setup e.\n") | cb_exit(&e));
 	prep_threads(&e);
 	mlx_key_hook(e.win, &handle_key, &e);
