@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 10:44:08 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 11:29:50 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 14:48:20 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ static int			env_setup(t_env *e, const char *name)
 	if (!(img_create(e)))
 		return (0 * err("Error with mlx image.\n"));
 	e->mouse = (t_int2){0, 0};
-	if (!(e->pixels = (int *)malloc(sizeof(int) * (WIN_X * WIN_Y))))
-		return (0 * err("Could not allocate pixel array.\n"));
 	env_setup_color(e);
 	e->zoom = 1.;
 	e->z_iter = 0;
@@ -56,7 +54,6 @@ static int			env_setup(t_env *e, const char *name)
 
 static void			env_defaults(t_env *e)
 {
-	e->pixels = NULL;
 	e->img.img = NULL;
 	e->zoom = 0;
 	e->z_iter = 0;

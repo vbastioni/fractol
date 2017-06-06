@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 10:12:35 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/25 17:35:44 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 14:46:52 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void		*rdr_thread(void *pth)
 	t_pth		*th;
 	t_int2		pos;
 	int			y_max;
+	char		*addr;
 
 	th = (t_pth *)pth;
 	pos.a = WIN_Y / PTH_CNT * th->id - 1;
@@ -25,25 +26,13 @@ static void		*rdr_thread(void *pth)
 	{
 		pos.b = -1;
 		while (++pos.b < WIN_X)
-			th->env->pixels[pos.b + pos.a * WIN_X] = th->env->renderer(th->env,
-																		&pos);
+		{
+			addr = th->env->img.addr + th->env->img.bpx * pos.a
+					+ th->env->img.sl * pos.b;
+			*((int *)addr) = th->env->renderer(th->env, &pos);
+		}
 	}
 	return (0);
-}
-
-static void		rdr_loop(t_env *env)
-{
-	t_int2		pos;
-
-	img_clear(env);
-	pos.a = -1;
-	while (++pos.a < WIN_Y)
-	{
-		pos.b = -1;
-		while (++pos.b < WIN_X)
-			*(img_get_addr(env, &pos)) = env->pixels[pos.b + pos.a * WIN_X];
-	}
-	img_to_win(env);
 }
 
 void			rdr_cmd(t_env *env)
@@ -51,6 +40,7 @@ void			rdr_cmd(t_env *env)
 	int			i;
 
 	i = -1;
+	img_clear(env);
 	while (++i < PTH_CNT)
 	{
 		env->cth[i].id = i;
@@ -60,5 +50,5 @@ void			rdr_cmd(t_env *env)
 	i = -1;
 	while (++i < PTH_CNT)
 		pthread_join(env->wth[i], NULL);
-	rdr_loop(env);
+	img_to_win(env);
 }

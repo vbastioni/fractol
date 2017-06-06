@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 11:02:31 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 14:47:39 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ struct					s_env
 	void				*mlx;
 	void				*win;
 	t_img				img;
-	int					*pixels;
 	int					(*renderer)();
 	pthread_t			wth[PTH_CNT];
 	t_pth				cth[PTH_CNT];
