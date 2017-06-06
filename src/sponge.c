@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 17:10:14 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/05 15:57:50 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 15:51:58 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int					draw_sponge(t_env *e)
 	dims = (t_int2){WIN_X / 2, WIN_Y / 2};
 	img_clear(e);
 	bckgd(e);
-	draw_cube(e, 0, &dims, WIN_X * e->zoom);
+	draw_cube(e, 0, &dims, (WIN_X / 2) * e->zoom);
 	img_to_win(e);
 	return (0);
 }

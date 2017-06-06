@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 15:22:14 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 16:23:59 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,7 @@ int						change_mode(t_env *e);
 int						swap_color(t_env *e);
 
 void					rdr_cmd(t_env *e);
+void					prep_threads(t_env *e);
 
 /*
 **	PREPARATION

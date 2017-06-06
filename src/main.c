@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 10:44:08 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 14:48:20 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 15:58:17 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int					main(int ac, char **av)
 		return (err("Could not create mlx window.\n") | cb_exit(&e));
 	if (!(env_setup(&e, av[1])))
 		return (err("Could not setup e.\n") | cb_exit(&e));
+	prep_threads(&e);
 	mlx_key_hook(e.win, &handle_key, &e);
 	mlx_hook(e.win, EVT_MOTION, EVT_MOTION_MASK, handle_mouse, &e);
 	mlx_expose_hook(e.win, &expose, &e);

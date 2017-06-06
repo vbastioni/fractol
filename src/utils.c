@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 12:26:30 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/26 15:54:35 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 15:47:35 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int					usage(const char *name, const t_env *env)
 	ft_putstr("\e[31mUsage:\e[0m ");
 	ft_putstr(name);
 	ft_putstr("\e[32m <fractal>\e[0m\n");
-	while (*fnames)
+	while (*fnames != NULL)
 	{
 		ft_putstr("\t");
 		ft_putstr(*fnames);
@@ -57,7 +57,7 @@ int					valid_args(const int ac, char **av, const t_env *env)
 
 	flags = 0;
 	fnames = env->fnames;
-	while (*fnames)
+	while (*fnames != NULL)
 	{
 		if ((flags & 1) == 0 && ft_strcmp(*fnames, av[1]) == 0)
 			flags |= 1;
@@ -70,20 +70,8 @@ int					valid_args(const int ac, char **av, const t_env *env)
 	return (flags);
 }
 
-#ifdef DEBUG
-
 int					err(const char *msg)
 {
-	ft_putstr(msg);
+	ft_putstr_fd(msg, 2);
 	return (1);
 }
-
-#else
-
-int					err(const char *msg)
-{
-	(void)msg;
-	return (1);
-}
-
-#endif
