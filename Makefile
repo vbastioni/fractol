@@ -36,7 +36,7 @@ OBJ:=$(addprefix obj/, $(ITEM))
 $(NAME): $(OBJ)
 	make -C ${FT}
 	make -C ${MLX}
-	$(CC) $(OBJ) $(CFLAGS)-O3 -o $@ ${CLIBS}
+	$(CC) $(CFLAGS) -O3 $(OBJ) -o $@ ${CLIBS}
 	echo "Compiled fractol."
 
 $(FT):

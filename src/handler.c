@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 15:56:36 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/05 16:09:56 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 09:53:49 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int				handle_key(int kc, void *param)
 
 	e = (t_env *)param;
 	if (kc == KC_EXIT)
-		exit(0);
+		cb_exit(e);
 	if (kc == KC_LEFT || kc == KC_A || kc == KC_RIGHT || kc == KC_D
 			|| kc == KC_DOWN || kc == KC_S || kc == KC_UP || kc == KC_W)
 		move(kc, e);

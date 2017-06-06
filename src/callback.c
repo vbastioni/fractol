@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 12:31:30 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/26 15:57:55 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 10:22:46 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,9 @@ int				expose(void *param)
 	e = (t_env *)param;
 	(e->fid > 3) ? e->renderer(e) : rdr_cmd(e);
 	return (0);
+}
+
+int				cb_exit(t_env *e)
+{
+	
 }
