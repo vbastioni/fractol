@@ -6,13 +6,13 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 15:54:26 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/05 16:37:47 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 10:55:07 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-double					clamp_double(double val, double min, double max)
+double				clamp_double(double val, double min, double max)
 {
 	if (val > max)
 		val = max;

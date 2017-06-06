@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 15:56:36 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 09:53:49 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 11:08:26 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,27 @@ static int		move(int kc, t_env *e)
 	return (1);
 }
 
+static int		change_fract(t_env *e, int kc)
+{
+	if (kc == KC_1)
+		env_set_mandel(e, 0);
+	else if (kc == KC_2)
+		env_set_mandel(e, 1);
+	else if (kc == KC_3)
+		env_set_mandel(e, 2);
+	else if (kc == KC_4)
+		env_set_tree(e);
+	else if (kc == KC_5)
+		env_set_newton(e);
+	else if (kc == KC_6)
+		env_set_triangle(e);
+	else if (kc == KC_7)
+		env_set_sponge(e);
+	reset(e);
+	(e->fid > 3) ? e->renderer(e) : rdr_cmd(e);
+	return (0);
+}
+
 int				handle_key(int kc, void *param)
 {
 	t_env		*e;
@@ -48,6 +69,9 @@ int				handle_key(int kc, void *param)
 		swap_color(e);
 	if (kc == KC_Q || kc == KC_E)
 		cb_qe(kc == KC_E, e);
+	if (kc == KC_1 || kc == KC_2 || kc == KC_3 || kc == KC_4 || kc == KC_5
+		|| kc == KC_6 || kc == KC_7)
+		change_fract(e, kc);
 	return (0);
 }
 

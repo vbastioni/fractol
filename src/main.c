@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 10:44:08 by vbastion          #+#    #+#             */
-/*   Updated: 2017/05/27 15:38:51 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 11:29:50 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ static void			env_setup_fract(t_env *e, const char *name)
 
 static void			env_setup_color(t_env *e)
 {
-	e->col_getter[0] = &color_get_bones;
-	e->col_getter[1] = &color_get_blue;
-	e->col_getter[2] = &color_get_copper;
-	e->col_getter[3] = &color_get_gum;
+	e->col_getter[0] = &color_get_gum;
+	e->col_getter[1] = &color_get_bones;
+	e->col_getter[2] = &color_get_blue;
+	e->col_getter[3] = &color_get_copper;
 	e->color_scale_id = 0;
 }
 
@@ -56,6 +56,8 @@ static int			env_setup(t_env *e, const char *name)
 
 static void			env_defaults(t_env *e)
 {
+	e->pixels = NULL;
+	e->img.img = NULL;
 	e->zoom = 0;
 	e->z_iter = 0;
 	e->dimx = (t_doub2){ 0., 0. };
@@ -70,15 +72,15 @@ int					main(int ac, char **av)
 
 	env_defaults(&e);
 	e.fnames = (char *[8]){MANDEL, JULIA, SHIP, TREE, NEWTON, TRIANGLE,
-		SPONGE, 0};
+							SPONGE, 0};
 	if (ac == 1 || (!valid_args(ac, av, &e)))
 		return (usage(av[0], &e));
 	if (!(e.mlx = mlx_init()))
 		return (err("Could not init mlx.\n"));
 	if (!(e.win = mlx_new_window(e.mlx, WIN_X, WIN_Y, WIN_NAME)))
-		return (err("Could not create mlx window.\n"));
+		return (err("Could not create mlx window.\n") | cb_exit(&e));
 	if (!(env_setup(&e, av[1])))
-		return (err("Could not setup e.\n"));
+		return (err("Could not setup e.\n") | cb_exit(&e));
 	mlx_key_hook(e.win, &handle_key, &e);
 	mlx_hook(e.win, EVT_MOTION, EVT_MOTION_MASK, handle_mouse, &e);
 	mlx_expose_hook(e.win, &expose, &e);

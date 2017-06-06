@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/05 16:30:41 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 11:02:31 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,15 @@
 
 # define KC_SPACE (49)
 # define KC_TAB (48)
+
+# define KC_1 18
+# define KC_2 19
+# define KC_3 20
+# define KC_4 21
+# define KC_5 23
+# define KC_6 22
+# define KC_7 26
+# define KC_8 28
 
 # define KC_W 13
 # define KC_S 1
@@ -220,6 +229,7 @@ int						handle_mouse(int x, int y, void *param);
 int						handle_mouse_btn(int btn, int x, int y, void *param);
 
 int						cb_qe(int fwd, t_env *e);
+int						cb_exit(t_env *e);
 
 int						reset(t_env *e);
 int						change_mode(t_env *e);

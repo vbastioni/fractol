@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 12:31:30 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 10:22:46 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 11:25:50 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,11 @@ int				expose(void *param)
 
 int				cb_exit(t_env *e)
 {
-	
+	if (e->pixels != NULL)
+		free(e->pixels);
+	if (e->img.img != NULL)
+		mlx_destroy_image(e->mlx, e->img.img);
+	mlx_destroy_window(e->mlx, e->win);
+	exit(0);
+	return (0);
 }
