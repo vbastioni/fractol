@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 16:23:59 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/06 16:26:15 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define WIN_X (480)
 # define WIN_Y (480)
 # define WIN_NAME ("Fractol")
-# define PTH_CNT (8)
+# define PTH_CNT (4)
 # define ZOOM (1.1)
 
 # define COL_GRAD_CNT (4)
