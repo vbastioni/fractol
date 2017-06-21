@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 15:54:26 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 10:55:07 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/21 16:00:16 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void				zoom(int x, int y, t_env *e, double z)
 	oy = (e->dimy.b - e->dimy.a) * e->zoom;
 	nx = (e->dimx.b - e->dimx.a) * z2;
 	ny = (e->dimy.b - e->dimy.a) * z2;
-	e->z_iter = clamp(e->z_iter + ((z > 1) ? -4 : 4), 4, 1024);
+	e->z_iter = clamp(e->z_iter + ((z > 1) ? -2 : 2), 4, 1024);
 	e->zoom = z2;
 	e->delta.a -= ((double)x / WIN_X) * (nx - ox);
 	e->delta.b -= ((double)y / WIN_Y) * (ny - oy);
