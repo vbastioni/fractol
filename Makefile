@@ -1,17 +1,29 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: vbastion <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2017/06/21 14:44:05 by vbastion          #+#    #+#              #
+#    Updated: 2017/06/21 15:33:01 by vbastion         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS=-Wall -Wextra -Werror -O2
 NAME=fractol
 FT:=./libft
+LFT:=libft.a
+FLFT:=${FT}/${LFT}
 MLX=./minilibx_macos
-LIBS=-I ./includes -I ${FT}
-CLIBS=-L${FT} -lft -framework OpenGL -framework AppKit
-LIBS+=-I ${MLX}
-CLIBS+=-L ${MLX}
-CLIBS+=-lmlx
+LMLX:=libmlx.a
+FLMLX:=${MLX}/${LMLX}
+OBJ_D:=obj/
+SRC_D:=src/
+LIBS=-I./src -I ${FT} -I ${MLX}
+CLIBS=${FT}/$(LFT) $(MLX)/$(LMLX) -framework OpenGL -framework AppKit -lm
 MDIR=mkdir -p obj
-
-#.SILENT:
-
 ITEM:=\
 	callback.o\
 	color.o\
@@ -30,35 +42,42 @@ ITEM:=\
 	triangle.o\
 	utils.o\
 	util_math.o
-OBJ:=$(addprefix obj/, $(ITEM))
+OBJ:=$(addprefix $(OBJ_D), $(ITEM))
+HEADERS:=$(SRC_D)/fractol.h
 
+#.SILENT:
 
-$(NAME): $(OBJ)
-	@make -C ${FT}
-	@make -C ${MLX}
-	$(CC) $(CFLAGS) -O3 $(OBJ) -o $@ ${CLIBS} -fsanitize=address
-	@echo "Compiled fractol."
+all: build
 
-$(FT):
-	@make -C $?
+build:
+	$(MAKE) $(NAME)
 
-$(MLX):
-	@make -C $?
+$(NAME): $(FLFT) $(FLMLX) $(OBJ)
+	@printf "\033[32mBUILDING $@\033[0m\n"
+	$(CC) $(CFLAGS) $(CLIBS) $(OBJ) -o $@
+	@printf "\033[32mDONE BUILDING $@\033[0m\n"
 
-obj/%.o: src/%.c
-	$(CC) $(CFLAGS) -O3 -c $? ${LIBS} -o $@ 
+$(OBJ_D)%.o: $(SRC_D)%.c $(HEADERS) ${FLFT} ${FLMLX}
+	mkdir -p $(OBJ_D)
+	$(CC) $(CFLAGS) $(LIBS) -c $< -o $@
 
-all: ${NAME}
+$(FLMLX):
+	$(MAKE) -C $(MLX)
+
+$(FLFT):
+	$(MAKE) -C $(FT)
 
 clean:
-	rm -rf ${OBJ}
-	@make -C ${FT} clean
-	@make -C ${MLX} clean
-	@echo "Cleaned Fractol"
+	/bin/rm -f $(OBJ)
+	$(MAKE) -C ${FT} clean
+	$(MAKE) -C ${MLX} clean
+	echo "Cleaned Fractol"
 
 fclean: clean
 	rm -f ${NAME}
-	@make -C ${FT} fclean
-	@echo "FCleaned Fractol"
+	$(MAKE) -C ${FT} fclean
+	echo "FCleaned Fractol"
 
 re: fclean all
+
+.PHONY: re fclean clean all 

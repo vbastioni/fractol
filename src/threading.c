@@ -6,24 +6,32 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 10:12:35 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 16:00:17 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/21 15:44:57 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void		handle_th_cr_err(int err, t_env *env)
+static void		handle_th_cr_err(int err, t_env *env, int i)
 {
+	int			id;
+
+	id = 0;
 	if (err == 11)
 		ft_putstr_fd("Insufficient resources to create thread\n", 2);
 	else if (err == 22)
 		ft_putstr_fd("Invalid setting of attr.\n", 2);
 	else if (err == 1)
 		ft_putstr_fd("None of permissions needed.\n", 2);
+	while (id < i)
+	{
+		pthread_detach(env->wth[id]);
+		id++;
+	}
 	cb_exit(env);
 }
 
-static void		handle_th_join_err(int err, t_env *env)
+static void		handle_th_join_err(int err, t_env *env, int i)
 {
 	if (err == 35)
 		ft_putstr_fd("A Deadlock was detected.\n", 2);
@@ -31,6 +39,11 @@ static void		handle_th_join_err(int err, t_env *env)
 		ft_putstr_fd("thread is not a joinable thread", 2);
 	else if (err == 3)
 		ft_putstr_fd("No thread with this id could be found.\n", 2);
+	while (i < PTH_CNT)
+	{
+		pthread_detach(env->wth[i]);
+		i++;
+	}
 	cb_exit(env);
 }
 
@@ -83,14 +96,14 @@ void			rdr_cmd(t_env *env)
 	{
 		err = pthread_create(env->wth + i, NULL, rdr_thread, env->cth + i);
 		if (err != 0)
-			handle_th_cr_err(err, env);
+			handle_th_cr_err(err, env, i);
 		i++;
 	}
 	i = 0;
 	while (i < PTH_CNT)
 	{
 		if ((err = pthread_join(env->wth[i], NULL)) != 0)
-			handle_th_join_err(err, env);
+			handle_th_join_err(err, env, i);
 		i++;
 	}
 	img_to_win(env);
