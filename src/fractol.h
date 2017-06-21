@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:12:22 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 16:41:03 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/21 18:33:06 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define NEWTON ("newton")
 # define TRIANGLE ("triangle")
 # define SPONGE ("sponge")
+# define M3 ("m3")
 
 # define WIN_X (480)
 # define WIN_Y (480)
@@ -86,6 +87,9 @@
 # define KC_RIGHT 124
 # define KC_UP 126
 # define KC_DOWN 125
+
+# define KEY_PRESS 2
+# define KEY_PRESS_MASK (1L << 0)
 
 # define EVT_MOTION 6
 # define EVT_MOTION_MASK (1L << 6)
@@ -176,6 +180,7 @@ struct					s_env
 */
 
 int						draw_mandel(t_env *e, t_int2 *pos);
+int						draw_m3(t_env *e, t_int2 *pos);
 int						draw_tree(t_env *e);
 int						draw_newton(t_env *e, t_int2 *pos);
 int						draw_sponge(t_env *e);
@@ -190,7 +195,7 @@ void					draw_cube(t_env *e, int level, t_int2 *dims, double r);
 */
 
 int						usage(const char *name, const t_env *e);
-int						valid_args(const int ac, char **av, const t_env *e);
+int						valid_args(char **av, const t_env *e);
 int						err(const char *msg);
 
 void					zoom(int x, int y, t_env *e, double z);

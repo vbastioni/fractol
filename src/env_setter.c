@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 16:17:44 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/05 15:54:44 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/21 18:07:39 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void				env_set_mandel(t_env *e, int id)
 {
+	e->renderer = id == 3 ? &draw_m3 : &draw_mandel;
+	id = id == 3 ? 1 : id;
 	if (id == 0)
 	{
 		e->dimx = (t_doub2){-2., 1.};
@@ -31,7 +33,6 @@ void				env_set_mandel(t_env *e, int id)
 	}
 	e->def_dimx = e->dimx;
 	e->def_dimy = e->dimy;
-	e->renderer = &draw_mandel;
 	e->fid = 1;
 	e->params = ((id == 1) << 0) | ((id == 2) << 1) | 1 << 2 | ((id == 1) << 3);
 }

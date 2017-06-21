@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 12:26:30 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 15:47:35 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/21 18:24:00 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,18 @@ int					usage(const char *name, const t_env *env)
 	return (0);
 }
 
-int					valid_args(const int ac, char **av, const t_env *env)
+int					valid_args(char **av, const t_env *env)
 {
 	char			**fnames;
-	t_uchar			flags;
 
-	flags = 0;
 	fnames = env->fnames;
 	while (*fnames != NULL)
 	{
-		if ((flags & 1) == 0 && ft_strcmp(*fnames, av[1]) == 0)
-			flags |= 1;
-		if (ac == 3 && (flags & 2) == 0 && ft_strcmp(*fnames, av[2]) == 0)
-			flags |= 2;
+		if (ft_strcmp(*fnames, av[1]) == 0)
+			return (1);
 		fnames++;
 	}
-	if (ac == 3 && (flags & 2) == 0)
-		return (0);
-	return (flags);
+	return (0);
 }
 
 int					err(const char *msg)

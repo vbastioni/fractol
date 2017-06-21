@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 10:44:08 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 16:35:29 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/21 18:33:29 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void			env_setup_fract(t_env *e, const char *name)
 		env_set_triangle(e);
 	else if (ft_strcmp(name, SPONGE) == 0)
 		env_set_sponge(e);
+	else if (ft_strcmp(name, M3) == 0)
+		env_set_mandel(e, 3);
 }
 
 static void			env_setup_color(t_env *e)
@@ -69,9 +71,9 @@ int					main(int ac, char **av)
 	t_env			e;
 
 	env_defaults(&e);
-	e.fnames = (char *[8]){MANDEL, JULIA, SHIP, TREE, NEWTON, TRIANGLE,
-							SPONGE, 0};
-	if (ac == 1 || (!valid_args(ac, av, &e)))
+	e.fnames = (char *[9]){MANDEL, JULIA, SHIP, TREE, NEWTON, TRIANGLE,
+							SPONGE, M3, 0};
+	if (ac != 2 || valid_args(av, &e) == 0)
 		return (usage(av[0], &e));
 	if ((e.mlx = mlx_init()) == NULL)
 		return (err("Could not init mlx.\n"));
@@ -80,7 +82,7 @@ int					main(int ac, char **av)
 	if ((env_setup(&e, av[1])) == 0)
 		return (err("Could not setup e.\n") | cb_exit(&e));
 	prep_threads(&e);
-	mlx_key_hook(e.win, &handle_key, &e);
+	mlx_hook(e.win, KEY_PRESS, KEY_PRESS_MASK, &handle_key, &e);
 	mlx_hook(e.win, EVT_MOTION, EVT_MOTION_MASK, handle_mouse, &e);
 	mlx_expose_hook(e.win, &expose, &e);
 	mlx_mouse_hook(e.win, &handle_mouse_btn, &e);

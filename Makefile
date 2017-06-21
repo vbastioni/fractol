@@ -6,7 +6,7 @@
 #    By: vbastion <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/21 14:44:05 by vbastion          #+#    #+#              #
-#    Updated: 2017/06/21 15:33:01 by vbastion         ###   ########.fr        #
+#    Updated: 2017/06/21 18:16:53 by vbastion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ ITEM:=\
 	handler.o\
 	img.o\
 	main.o\
+	m3.o\
 	mandel.o\
 	newton.o\
 	qe_event.o\
@@ -53,12 +54,10 @@ build:
 	$(MAKE) $(NAME)
 
 $(NAME): $(FLFT) $(FLMLX) $(OBJ)
-	@printf "\033[32mBUILDING $@\033[0m\n"
 	$(CC) $(CFLAGS) $(CLIBS) $(OBJ) -o $@
-	@printf "\033[32mDONE BUILDING $@\033[0m\n"
 
 $(OBJ_D)%.o: $(SRC_D)%.c $(HEADERS) ${FLFT} ${FLMLX}
-	mkdir -p $(OBJ_D)
+	@mkdir -p $(OBJ_D)
 	$(CC) $(CFLAGS) $(LIBS) -c $< -o $@
 
 $(FLMLX):
@@ -71,12 +70,10 @@ clean:
 	/bin/rm -f $(OBJ)
 	$(MAKE) -C ${FT} clean
 	$(MAKE) -C ${MLX} clean
-	echo "Cleaned Fractol"
 
 fclean: clean
 	rm -f ${NAME}
 	$(MAKE) -C ${FT} fclean
-	echo "FCleaned Fractol"
 
 re: fclean all
 

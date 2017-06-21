@@ -6,7 +6,7 @@
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 15:56:36 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/06 16:22:42 by vbastion         ###   ########.fr       */
+/*   Updated: 2017/06/21 18:12:18 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static int		change_fract(t_env *e, int kc)
 		env_set_triangle(e);
 	else if (kc == KC_7)
 		env_set_sponge(e);
+	else if (kc == KC_8)
+		env_set_mandel(e, 3);
 	(e->fid > 3) ? e->renderer(e) : rdr_cmd(e);
 	return (0);
 }
@@ -69,7 +71,7 @@ int				handle_key(int kc, void *param)
 	if (kc == KC_Q || kc == KC_E)
 		cb_qe(kc == KC_E, e);
 	if (kc == KC_1 || kc == KC_2 || kc == KC_3 || kc == KC_4 || kc == KC_5
-		|| kc == KC_6 || kc == KC_7)
+		|| kc == KC_6 || kc == KC_7 || kc == KC_8)
 		change_fract(e, kc);
 	return (0);
 }

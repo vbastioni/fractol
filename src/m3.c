@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandel.c                                           :+:      :+:    :+:   */
+/*   m3.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbastion <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/21 17:48:34 by vbastion          #+#    #+#             */
-/*   Updated: 2017/06/21 17:48:35 by vbastion         ###   ########.fr       */
+/*   Created: 2017/06/21 17:48:25 by vbastion          #+#    #+#             */
+/*   Updated: 2017/06/21 17:53:38 by vbastion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ static int			do_iter(t_uchar flags, t_doub2 *tmp, t_cmp *c, int *iter)
 {
 	double			twoab;
 
-	tmp->a = c->re * c->re;
-	tmp->b = c->im * c->im;
-	twoab = 2 * ((flags & 2) ? fabs(c->re) * fabs(c->im) :
-					c->re * c->im);
+	tmp->a = c->re * c->re * c->re;
+	tmp->b = 3. * c->re * c->im * c->im;
+	twoab = 3. * c->re * c->re * c->im - c->im * c->im * c->im;
 	if ((flags & 4) && c->re == (tmp->a - tmp->b + (c + 1)->re)
 		&& c->im == (twoab + (c + 1)->im))
 		return (0);
@@ -48,7 +47,7 @@ static int			do_iter(t_uchar flags, t_doub2 *tmp, t_cmp *c, int *iter)
 	return (1);
 }
 
-int					draw_mandel(t_env *e, t_int2 *dims)
+int					draw_m3(t_env *e, t_int2 *dims)
 {
 	t_cmp			c[2];
 	t_doub2			tmp;
